@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.fishing.title" data-i18n-desc="page.fishing.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fish Encyclopedia - Heartopia Fishing Guide</title>
+<meta name="description" content="Complete Heartopia fish encyclopedia with season, location, rarity and price data.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+/* Fishing specific overrides for table columns */
+.db-table .col-season { white-space: nowrap; }
+.db-table .col-location { white-space: nowrap; }
+.tag-spring { background:#FFE8E8; color:#C62828; }
+.tag-summer { background:#FFF3E0; color:#E65100; }
+.tag-autumn { background:#FFF8E1; color:#F57F17; }
+.tag-winter { background:#E3F2FD; color:#0D47A1; }
+.tag-river { background:#E0F2F1; color:#00695C; }
+.tag-lake { background:#E1F5FE; color:#01579B; }
+.tag-ocean { background:#E8EAF6; color:#1A237E; }
+.tag-pond { background:#F3E5F5; color:#4A148C; }
+
+.filter-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-toggle-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-toggle-row input[type="checkbox"] {
+  width: 18px; height: 18px;
+  accent-color: var(--coral);
+}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="container">
+    <!-- Page Layout: content + sidebar -->
+    <div class="page-layout">
+      <!-- Main Content -->
+      <div>
+        <!-- Mobile TOC -->
+        <div class="mobile-toc"></div>
+
+        <div class="section-header">
+          <div class="section-divider"></div>
+          <h1 data-i18n-html="page.fishing.h1">🎣 Fishing Guide & Fish Encyclopedia</h1>
+          <p class="section-desc" data-i18n-html="page.fishing.subtitle">Master fishing skills and collect all 27 fish species</p>
+        </div>
+
+        <!-- Guide Content -->
+        <div class="prose" id="guideContent">
+          <h2 id="basics" data-i18n-html="page.fishing.guideTitle">🎯 Fishing Basics</h2>
+          <p data-i18n-html="page.fishing.guideP1">Fishing is one of the first hobbies unlocked in Heartopia and the <strong>most stable way to make money</strong>. You can fish in four types of waters: rivers, lakes, ponds, and oceans. Different waters yield different fish.</p>
+
+          <div class="callout callout-info" data-i18n-html="page.fishing.tip1">
+            <strong>💡 Beginner Tip:</strong> You start with <strong>Universal Bait x20</strong>. Try fishing for carp in the river first to master casting and reeling before challenging rare fish.
+          </div>
+
+          <h3 data-i18n-html="page.fishing.howto">How to Fish</h3>
+          <ol>
+            <li data-i18n-html="page.fishing.step1">Walk to the edge of any water body (river/lake/pond/ocean)</li>
+            <li data-i18n-html="page.fishing.step2">Open backpack, equip fishing rod and bait</li>
+            <li data-i18n-html="page.fishing.step3">Hold the cast button, wait for the bobber to land</li>
+            <li data-i18n-html="page.fishing.step4">Tap to reel in quickly when the bobber sinks!</li>
+            <li data-i18n-html="page.fishing.step5">Enter the fight phase: pull in the opposite direction of the fish</li>
+          </ol>
+
+          <h2 id="baits" data-i18n-html="page.fishing.baitTitle">🪱 Bait Types</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Bait</th><th>Target Fish</th><th>Source</th><th>Best For</th></tr></thead>
+              <tbody>
+                <tr><td data-i18n-html="bait.universal">Universal Bait</td><td data-i18n-html="bait.universal.target">Common fish</td><td data-i18n-html="bait.universal.source">Shop / Starter gift</td><td data-i18n-html="bait.universal.scene">Daily fishing, beginner practice</td></tr>
+                <tr><td data-i18n-html="bait.worm">Worm Bait</td><td data-i18n-html="bait.worm.target">Small-medium freshwater fish</td><td data-i18n-html="bait.worm.source">Bug catching / Shop</td><td data-i18n-html="bait.worm.scene">Bass, trout, frog</td></tr>
+                <tr><td data-i18n-html="bait.stinky">Stinky Bait</td><td data-i18n-html="bait.stinky.target">Large predatory fish</td><td data-i18n-html="bait.stinky.source">Cooking / Shop</td><td data-i18n-html="bait.stinky.scene">Catfish, tuna, shark</td></tr>
+                <tr><td data-i18n-html="bait.premium">Premium Bait</td><td data-i18n-html="bait.premium.target">Rare/legendary fish</td><td data-i18n-html="bait.premium.source">Event rewards / Premium shop</td><td data-i18n-html="bait.premium.scene">Arowana, sunfish etc.</td></tr>
+                <tr><td data-i18n-html="bait.legendary">Legendary Bait</td><td data-i18n-html="bait.legendary.target">Legendary fish</td><td data-i18n-html="bait.legendary.source">Derby rewards / Extremely rare drop</td><td data-i18n-html="bait.legendary.scene">Dragon King Koi and other ultimate targets</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="spots" data-i18n-html="page.fishing.spotTitle">📍 Best Fishing Spots</h2>
+          <div class="callout callout-success" data-i18n-html="page.fishing.spotTip1"><strong>🏆 Highest Profit:</strong> Autumn ocean salmon (420💰) + Summer night river catfish (350💰). Alternate fishing for 5000+ gold daily.</div>
+          <div class="callout callout-warn" data-i18n-html="page.fishing.spotTip2"><strong>⚠️ Note:</strong> Rare fish (Arowana, Sunfish, etc.) have extremely low spawn rates. Use premium bait in the right season and allow plenty of time.</div>
+
+          <h2 id="encyclopedia" data-i18n-html="page.fishing.encyclopedia">📊 Fish Encyclopedia</h2>
+          <p data-i18n-html="page.fishing.encyDesc">Complete fish data below. Use filters to find your target, click ⬜ to mark as caught.</p>
+        </div>
+
+        <!-- Database section -->
+        <div class="filter-toggle-row">
+          <input type="text" id="dbSearch" data-i18n-placeholder="db.search" placeholder="🔍 Search fish..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+          <select id="sortSelect" class="sort-select">
+            <option value="id" data-i18n="db.sort.default">Default</option>
+            <option value="name" data-i18n="db.sort.name">Name A-Z</option>
+            <option value="-price" data-i18n="db.sort.priceDesc">Price High→Low</option>
+            <option value="price" data-i18n="db.sort.priceAsc">Price Low→High</option>
+            <option value="-rarity" data-i18n="db.sort.rarityDesc">Rarity High→Low</option>
+          </select>
+          <label><input type="checkbox" id="toggleUncollected"> <span data-i18n="db.toggleUncollected">Show uncollected only</span></label>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar" id="filterBar">
+          <div class="filter-group">
+            <span class="filter-label" data-i18n="filter.season">Season</span>
+            <button class="filter-btn filter-season" data-filter-group="season" data-filter-value="0" data-i18n="season.spring">🌸 Spr</button>
+            <button class="filter-btn filter-season" data-filter-group="season" data-filter-value="1" data-i18n="season.summer">☀️ Sum</button>
+            <button class="filter-btn filter-season" data-filter-group="season" data-filter-value="2" data-i18n="season.autumn">🍂 Aut</button>
+            <button class="filter-btn filter-season" data-filter-group="season" data-filter-value="3" data-i18n="season.winter">❄️ Win</button>
+          </div>
+          <span class="filter-divider"></span>
+          <div class="filter-group">
+            <span class="filter-label" data-i18n="filter.location">Location</span>
+            <button class="filter-btn filter-location" data-filter-group="location" data-filter-value="river" data-i18n="loc.river">River</button>
+            <button class="filter-btn filter-location" data-filter-group="location" data-filter-value="lake" data-i18n="loc.lake">Lake</button>
+            <button class="filter-btn filter-location" data-filter-group="location" data-filter-value="ocean" data-i18n="loc.ocean">Ocean</button>
+            <button class="filter-btn filter-location" data-filter-group="location" data-filter-value="pond" data-i18n="loc.pond">Pond</button>
+          </div>
+          <span class="filter-divider"></span>
+          <div class="filter-group">
+            <span class="filter-label" data-i18n="filter.rarity">Rarity</span>
+            <button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="1" data-i18n="rarity.common">⭐ Common</button>
+            <button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="2" data-i18n="rarity.uncommon">⭐⭐ Uncommon</button>
+            <button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="3" data-i18n="rarity.rare">⭐⭐⭐ Rare</button>
+            <button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="4" data-i18n="rarity.legendary">👑 Legendary</button>
+          </div>
+        </div>
+
+        <p class="db-count" id="dbCount"><span data-i18n="db.found">Found</span> <strong>27</strong> <span data-i18n="db.results">results</span></p>
+        <div id="dbResults"></div>
+      </div>
+
+      <!-- Sidebar TOC -->
+      <aside class="sidebar-toc" id="sidebarToc">
+        <div class="toc-title" data-i18n="toc.title">📑 Contents</div>
+        <nav></nav>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/fish.js"></script>
+<script src="js/database.js"></script>
+<script>
+  initGuidePage({ titleKey: 'page.fishing.h1', parentKey: '', currentNav: 'fishing.html' });
+
+  // Build TOC
+  buildTOC('#guideContent', '#sidebarToc');
+
+  // Season/Location name mapping
+  const seasonNames = { 0:'Spr🌸', 1:'Sum☀️', 2:'Aut🍂', 3:'Win❄️' };
+  const locationColors = { river:'tag-river', lake:'tag-lake', ocean:'tag-ocean', pond:'tag-pond' };
+  const locationNames = { river:'River', lake:'Lake', ocean:'Ocean', pond:'Pond' };
+  const timeNames = { all:'All Day', morning:'Morning', afternoon:'Afternoon', evening:'Evening', night:'Night' };
+
+  // Subclass EncyclopediaDB with custom renderers
+  class FishDB extends EncyclopediaDB {
+    constructor() {
+      super(FISH_DB, { defaultSort: 'id' }, 'heartopia_fish_collected');
+    }
+
+    _renderTableRow(item, collectIcon, collectedClass) {
+      const seasons = item.season.map(s => `<span class="tag-spring" style="padding:1px 6px;border-radius:100px;font-size:0.7rem;margin:0 1px;">${seasonNames[s]}</span>`).join('');
+      const locs = item.location.map(l => `<span class="${locationColors[l]}" style="padding:1px 6px;border-radius:100px;font-size:0.7rem;margin:0 1px;">${locationNames[l]}</span>`).join('');
+      const stars = '⭐'.repeat(item.rarity);
+      return `<tr>
+        <td class="col-icon">${item.icon}</td>
+        <td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.nameEn}</small></td>
+        <td class="rarity-stars">${stars}</td>
+        <td class="col-season">${seasons}</td>
+        <td class="col-location">${locs}</td>
+        <td style="font-size:0.82rem;">${timeNames[item.time] || item.time}</td>
+        <td class="col-price">${item.price}💰</td>
+        <td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td>
+      </tr>`;
+    }
+
+    _renderCard(item, collectIcon, collectedClass) {
+      const stars = '⭐'.repeat(item.rarity);
+      const seasons = item.season.map(s => seasonNames[s]).join(' · ');
+      const locs = item.location.map(l => locationNames[l]).join(' · ');
+      return `<div class="db-card">
+        <div class="card-icon-big">${item.icon}</div>
+        <div class="card-info">
+          <h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.nameEn}</small></h4>
+          <div class="card-tags">
+            <span class="card-tag tag-rarity">${stars}</span>
+            <span class="card-tag tag-season">${seasons}</span>
+            <span class="card-tag tag-location">${locs}</span>
+            <span class="card-tag tag-time">${timeNames[item.time] || item.time}</span>
+          </div>
+          <div class="card-price" style="margin-top:6px;">${item.price}💰</div>
+          <p style="font-size:0.78rem;color:var(--brown-lighter);margin-top:4px;">${item.desc}</p>
+        </div>
+        <button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button>
+      </div>`;
+    }
+  }
+
+  const fishDB = new FishDB();
+  fishDB.init();
+  fishDB.render();
+</script>
+</body>
+</html>

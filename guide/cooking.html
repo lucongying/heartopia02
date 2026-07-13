@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.cooking.title" data-i18n-desc="page.cooking.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recipe Database - Heartopia Cooking Guide</title>
+<meta name="description" content="Heartopia complete recipe database with 27 dishes including ingredients, stamina effects, sell price. Fish dishes, desserts, mains, drinks all covered. Filter by category and difficulty.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.db-table .col-ingredients { font-size: 0.82rem; max-width: 200px; }
+.tag-fish { background:#FFE8E8; color:#C62828; }
+.tag-meat { background:#FFF3E0; color:#E65100; }
+.tag-dessert { background:#FCE4EC; color:#880E4F; }
+.tag-veggie { background:#E8F5E9; color:#2E7D32; }
+.tag-staple { background:#FFF8E1; color:#F57F17; }
+.tag-drink { background:#E3F2FD; color:#0D47A1; }
+.tag-special { background:#F3E5F5; color:#4A148C; }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="container">
+    <div class="page-layout">
+      <div>
+        <div class="mobile-toc"></div>
+
+        <div class="section-header">
+          <div class="section-divider"></div>
+          <h1 data-i18n-html="page.cooking.h1">&#x1F373; Cooking Guide &amp; Recipe Database</h1>
+          <p class="section-desc" data-i18n-html="page.cooking.subtitle">Complete recipes for 27 dishes: ingredients, effects, prices &amp; unlock conditions</p>
+        </div>
+
+        <div class="prose" id="guideContent">
+
+          <h2 id="basics" data-i18n-html="page.cooking.basics">&#x1F958; Cooking System Basics</h2>
+          <p data-i18n-html="page.cooking.basicsP1">Cooking is a core hobby in Heartopia that not only <strong>restores stamina</strong> but also provides <strong>temporary buffs</strong> (speed boost, warmth, social affinity).</p>
+
+          <div class="callout callout-info" data-i18n-html="page.cooking.tip1"><strong>&#x1F513; Unlock:</strong> After completing the tutorial, place a <strong>Kitchen Counter</strong> in your home to unlock the cooking system. Start with 5 basic recipes.</div>
+
+          <h3 data-i18n-html="page.cooking.steps">Cooking Steps</h3>
+          <ol>
+            <li data-i18n-html="page.cooking.step1">Approach kitchen counter and press "Cook"</li>
+            <li data-i18n-html="page.cooking.step2">Select a recipe to make</li>
+            <li data-i18n-html="page.cooking.step3">Confirm you have all ingredients (missing items are highlighted)</li>
+            <li data-i18n-html="page.cooking.step4">Press "Start Cooking" and wait for completion</li>
+            <li data-i18n-html="page.cooking.step5">The dish is automatically stored in your backpack. Eat, sell, or gift it!</li>
+          </ol>
+
+          <h2 id="ingredients" data-i18n-html="page.cooking.ingredientTitle">&#x1F96C; Ingredient Sourcing Guide</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-i18n-html="page.cooking.table.ingredientType">Type</th><th data-i18n-html="page.cooking.table.source">Source</th><th data-i18n-html="page.cooking.table.examples">Examples</th></tr></thead>
+              <tbody>
+                <tr><td data-i18n-html="page.cooking.ing.fish">&#x1F41F; Fish</td><td data-i18n-html="page.cooking.ing.fishSrc">Fishing</td><td data-i18n-html="page.cooking.ing.fishEx">Carp, Salmon, Tuna, Squid</td></tr>
+                <tr><td data-i18n-html="page.cooking.ing.veggie">&#x1F96C; Vegetables</td><td data-i18n-html="page.cooking.ing.veggieSrc">Gardening</td><td data-i18n-html="page.cooking.ing.veggieEx">Lettuce, Tomato, Cucumber, Potato</td></tr>
+                <tr><td data-i18n-html="page.cooking.ing.fruit">&#x1F34E; Fruit</td><td data-i18n-html="page.cooking.ing.fruitSrc">Tree harvest / Gardening</td><td data-i18n-html="page.cooking.ing.fruitEx">Apple, Cherry, Blueberry, Strawberry</td></tr>
+                <tr><td data-i18n-html="page.cooking.ing.meat">&#x1F969; Meat</td><td data-i18n-html="page.cooking.ing.meatSrc">Shop / Quest rewards</td><td data-i18n-html="page.cooking.ing.meatEx">Beef, Chicken, Pork</td></tr>
+                <tr><td data-i18n-html="page.cooking.ing.dairy">&#x1F95B; Dairy</td><td data-i18n-html="page.cooking.ing.dairySrc">Shop</td><td data-i18n-html="page.cooking.ing.dairyEx">Milk, Cream, Butter, Cheese</td></tr>
+                <tr><td data-i18n-html="page.cooking.ing.seasoning">&#x1F33F; Seasoning</td><td data-i18n-html="page.cooking.ing.seasoningSrc">Foraging / Shop</td><td data-i18n-html="page.cooking.ing.seasoningEx">Herbs, Soy Sauce, Wine, Chocolate</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-warn" data-i18n-html="page.cooking.storageWarn"><strong>&#x26A0;&#xFE0F; Storage Tip:</strong> Fridge (storage) capacity is limited. Keep 3-5 of each ingredient; sell or cook the excess (cooked dishes stack).</div>
+
+          <h2 id="tips" data-i18n-html="page.cooking.levelTitle">&#x1F4A1; Cooking Leveling Strategy</h2>
+          <ul>
+            <li data-i18n-html="page.cooking.level1"><strong>Level 1-2:</strong> Repeatedly make "Grilled Fish" and "Garden Salad" &mdash; ingredients are easy to get, low cost</li>
+            <li data-i18n-html="page.cooking.level2"><strong>Level 3-5:</strong> Make "Fish Soup" and "Fried Rice" &mdash; good value, decent XP</li>
+            <li data-i18n-html="page.cooking.level3"><strong>Level 6-8:</strong> Make "Sashimi Platter" and "Ramen" &mdash; generous XP</li>
+            <li data-i18n-html="page.cooking.level4"><strong>Level 9-10:</strong> Challenge the "Golden Feast" &mdash; ultimate dish worth showing off</li>
+          </ul>
+
+          <h2 id="database" data-i18n-html="page.cooking.encyclopedia">&#x1F4CA; Recipe Database</h2>
+        </div>
+
+        <!-- Filters -->
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+          <input type="text" id="dbSearch" placeholder="&#x1F50D; Search recipes..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+          <select id="sortSelect" class="sort-select">
+            <option value="id">Default</option>
+            <option value="name">Name A-Z</option>
+            <option value="-sellPrice">Price High&#x2192;Low</option>
+            <option value="-difficulty">Difficulty High&#x2192;Low</option>
+          </select>
+          <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="toggleUncollected"> Show locked only
+          </label>
+        </div>
+
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">Category</span>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="鱼类料理">&#x1F41F; Fish</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="肉类料理">&#x1F969; Meat</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="甜点">&#x1F370; Dessert</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="素食">&#x1F957; Veggie</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="主食">&#x1F35A; Staple</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="饮品">&#x1F964; Drink</button>
+            <button class="filter-btn" data-filter-group="category" data-filter-value="特殊">&#x2728; Special</button>
+          </div>
+          <span class="filter-divider"></span>
+          <div class="filter-group">
+            <span class="filter-label">Difficulty</span>
+            <button class="filter-btn filter-rarity" data-filter-group="difficulty" data-filter-value="1">&#x2B50; Easy</button>
+            <button class="filter-btn filter-rarity" data-filter-group="difficulty" data-filter-value="2">&#x2B50;&#x2B50; Medium</button>
+            <button class="filter-btn filter-rarity" data-filter-group="difficulty" data-filter-value="3">&#x2B50;&#x2B50;&#x2B50; Hard</button>
+          </div>
+        </div>
+
+        <p class="db-count" id="dbCount">Found <strong>27</strong> results</p>
+        <div id="dbResults"></div>
+      </div>
+
+      <aside class="sidebar-toc" id="sidebarToc">
+        <div class="toc-title">&#x1F4D1; Contents</div>
+        <nav></nav>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/recipes.js"></script>
+<script src="js/database.js"></script>
+<script>
+  initGuidePage({ titleKey: 'page.cooking.h1', parent: '', currentNav: 'cooking.html' });
+  buildTOC('#guideContent', '#sidebarToc');
+
+  const catColors = {
+    '鱼类料理':'tag-fish','肉类料理':'tag-meat','甜点':'tag-dessert',
+    '素食':'tag-veggie','主食':'tag-staple','饮品':'tag-drink','特殊':'tag-special'
+  };
+
+  class RecipeDB extends EncyclopediaDB {
+    constructor() {
+      super(RECIPE_DB, { defaultSort: 'id' }, 'heartopia_cook_collected');
+    }
+
+    _renderTableRow(item, collectIcon, collectedClass) {
+      const ings = item.ingredients.map(i => `${i.name}x${i.qty}`).join(' · ');
+      return `<tr>
+        <td class="col-icon">${item.icon}</td>
+        <td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.nameEn}</small></td>
+        <td><span class="${catColors[item.category]||''}" style="padding:2px 8px;border-radius:100px;font-size:0.73rem;font-weight:600;">${item.category}</span></td>
+        <td class="col-ingredients">${ings}</td>
+        <td style="font-size:0.82rem;">${item.effect}</td>
+        <td class="col-price">${item.sellPrice}💰</td>
+        <td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td>
+      </tr>`;
+    }
+
+    _renderCard(item, collectIcon, collectedClass) {
+      const ings = item.ingredients.map(i => `${i.name}x${i.qty}`).join(' · ');
+      return `<div class="db-card">
+        <div class="card-icon-big">${item.icon}</div>
+        <div class="card-info">
+          <h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.nameEn}</small></h4>
+          <div class="card-tags">
+            <span class="card-tag ${catColors[item.category]||''}">${item.category}</span>
+            <span class="card-tag tag-rarity">${'⭐'.repeat(item.difficulty)}</span>
+          </div>
+          <p style="font-size:0.8rem;color:var(--brown-light);margin-top:6px;"><strong>Ingredients: </strong>${ings}</p>
+          <p style="font-size:0.8rem;color:var(--brown-light);">${item.effect} · Sell ${item.sellPrice}💰</p>
+        </div>
+        <button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button>
+      </div>`;
+    }
+  }
+
+  const recipeDB = new RecipeDB();
+  recipeDB.init();
+  recipeDB.render();
+</script>
+</body>
+</html>

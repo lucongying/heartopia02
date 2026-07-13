@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.videos.title" data-i18n-desc="page.videos.subtitle">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Tutorial - Heartopia Guide</title>
+<meta name="description" content="Heartopia video tutorial with embedded Bilibili player.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.detail-header { text-align: center; padding: 24px 0 32px; }
+.detail-header .detail-icon { font-size: 4rem; display: block; margin-bottom: 12px; }
+.detail-header h1 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 8px; }
+.detail-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.detail-meta span { font-size: 0.85rem; color: var(--brown-lighter); display: flex; align-items: center; gap: 4px; }
+.cat-badge { padding: 3px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; color: #fff; }
+.cat-badge.beginner { background:#4CAF50; } .cat-badge.gameplay { background:#2196F3; } .cat-badge.events { background:#9C27B0; } .cat-badge.build { background:#FF9800; } .cat-badge.news { background:#E91E63; }
+.video-player-wrap { max-width: 860px; margin: 0 auto 24px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); background: #000; }
+.video-player-inner { position: relative; padding-bottom: 56.25%; height: 0; }
+.video-player-inner iframe,
+.video-player-inner video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; outline: none; }
+.video-info { max-width: 760px; margin: 0 auto 40px; background: var(--warm-white); border-radius: var(--radius); padding: 28px 32px; box-shadow: var(--shadow-sm); }
+.video-info p { font-size: 0.95rem; line-height: 1.7; color: var(--brown-light); }
+.video-info .meta-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; align-items: center; }
+.video-info .channel-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,123,123,0.06); border-radius: 100px; color: var(--coral-dark); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; }
+.video-info .channel-link:hover { background: rgba(255,123,123,0.12); }
+.video-info .views-badge { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; background: rgba(251,114,153,0.08); border-radius: 100px; color: #fb7299; font-size: 0.82rem; font-weight: 700; }
+.video-info .platform-badge { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; background: rgba(33,150,243,0.08); border-radius: 100px; color: #1976D2; font-size: 0.82rem; font-weight: 700; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--coral-dark); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 16px; transition: opacity 0.2s; }
+.back-link:hover { opacity: 0.8; text-decoration: underline; }
+.not-found { text-align: center; padding: 60px 20px; color: var(--brown-lighter); font-size: 1.1rem; }
+@media(max-width:640px){ .video-info { padding: 16px; } }
+</style>
+</head>
+<body>
+<main><div class="container">
+  <a href="videos.html" class="back-link">← <span data-i18n="back.videos">Back to Videos</span></a>
+  <div id="detailContainer"></div>
+</div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/videos.js"></script>
+<script>
+initGuidePage({ titleKey: 'page.videos.h1', parentKey: 'nav.videos', currentNav: 'videos.html' });
+
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var video = VIDEOS_DB.find(function(v) { return v.id === id; });
+  var container = document.getElementById('detailContainer');
+
+  function t(key) { return (typeof I18N !== 'undefined') ? I18N.t(key) : key; }
+  function isZh() { return typeof I18N !== 'undefined' && I18N.currentLang === 'zh'; }
+
+  if (!video) {
+    container.innerHTML = '<div class="not-found">🎬 ' + t('tutorial.notFound') + '<br><a href="videos.html">← ' + t('tutorial.notFoundLink') + '</a></div>';
+    return;
+  }
+
+  function getTitle() { return isZh() ? video.title : (video.titleEn || video.title); }
+  function getDesc() { return isZh() ? video.desc : (video.descEn || video.desc); }
+  function getCat() { return t('filter.cat.' + video.category); }
+
+  function renderDetail() {
+    var title = getTitle();
+    var desc = getDesc();
+    var cat = getCat();
+
+    var playerHTML;
+    if (video.platform === 'bilibili' && video.bvid) {
+      // Bilibili iframe embed
+      playerHTML =
+        '<div class="video-player-wrap"><div class="video-player-inner">'
+        + '<iframe src="https://player.bilibili.com/player.html?bvid=' + video.bvid + '&page=1&autoplay=0&danmaku=0"'
+        + ' scrolling="no" border="0" frameborder="no" framespacing="0"'
+        + ' allowfullscreen="true"'
+        + ' sandbox="allow-scripts allow-same-origin allow-popups allow-presentation"'
+        + ' title="' + title + '">'
+        + '</iframe>'
+        + '</div></div>';
+    } else if (video.platform === 'youtube' && video.youtubeId) {
+      playerHTML =
+        '<div class="video-player-wrap"><div class="video-player-inner">'
+        + '<iframe src="https://www.youtube.com/embed/' + video.youtubeId + '?autoplay=0&rel=0&modestbranding=1"'
+        + ' allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"'
+        + ' title="' + title + '">'
+        + '</iframe>'
+        + '</div></div>';
+    } else if (video.platform === 'local' && video.fileName) {
+      playerHTML =
+        '<div class="video-player-wrap"><div class="video-player-inner">'
+        + '<video controls playsinline preload="metadata"'
+        + ' src="../视频素材/' + encodeURIComponent(video.fileName) + '"'
+        + ' title="' + title + '">'
+        + '<p>Your browser does not support HTML5 video. Please download the video file directly.</p>'
+        + '</video>'
+        + '</div></div>';
+    } else {
+      playerHTML = '';
+    }
+
+    // Build metadata badges
+    var metaHTML = '';
+    if (video.views) {
+      metaHTML += '<span class="views-badge">🔥 ' + video.views + ' ' + t('page.videos.countUnit') + '</span>';
+    }
+    if (video.platform === 'bilibili') {
+      metaHTML += '<span class="platform-badge">📺 Bilibili</span>';
+    } else if (video.platform === 'youtube') {
+      metaHTML += '<span class="platform-badge">📺 YouTube</span>';
+    }
+
+    container.innerHTML =
+      '<div class="detail-header">'
+      + '<span class="detail-icon">' + video.icon + '</span>'
+      + '<h1>' + title + '</h1>'
+      + '<div class="detail-meta">'
+      +   '<span class="cat-badge ' + video.category + '">' + cat + '</span>'
+      +   '<span>⏱ ' + video.duration + '</span>'
+      + '</div>'
+      + '</div>'
+      + playerHTML
+      + '<div class="video-info">'
+      + '<p>' + desc + '</p>'
+      + '<div class="meta-row">'
+      +   metaHTML
+      +   (video.channel
+      ? '<span class="channel-link">📺 ' + video.channel + '</span>'
+      : '')
+      + '</div>'
+      + (video.platform === 'bilibili' && video.bvid
+      ? '<a class="channel-link" href="https://www.bilibili.com/video/' + video.bvid + '" target="_blank" rel="noopener" style="margin-top:12px;">🔗 ' + t('page.videos.watchOnBilibili') + '</a>'
+      : '')
+      + '</div>';
+
+    document.title = title + ' - Heartopia Guide';
+  }
+
+  renderDetail();
+
+  // Re-render on language change
+  document.addEventListener('langChanged', function() {
+    renderDetail();
+  });
+})();
+</script>
+</body>
+</html>

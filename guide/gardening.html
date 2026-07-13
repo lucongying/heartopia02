@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.gardening.title" data-i18n-desc="page.gardening.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gardening Guide - Heartopia Planting Encyclopedia</title>
+<meta name="description" content="Heartopia gardening guide: 18 plant encyclopedia with flowers, vegetables, fruits, herbs. Growth cycle, watering frequency, harvest yield and sell price all covered.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.db-table .col-growth{white-space:nowrap;}
+.tag-flower{background:#FCE4EC;color:#880E4F;} .tag-crop{background:#E8F5E9;color:#2E7D32;}
+.tag-fruit{background:#FFF3E0;color:#E65100;} .tag-herb{background:#E8F5E9;color:#33691E;}
+.tag-fungus{background:#F3E5F5;color:#4A148C;} .tag-tree-plant{background:#E8EAF6;color:#1A237E;}
+</style>
+</head>
+<body>
+<main><div class="container"><div class="page-layout"><div>
+<div class="mobile-toc"></div>
+<div class="section-header"><div class="section-divider"></div><h1 data-i18n-html="page.gardening.h1">&#x1F337; Gardening &amp; Planting Encyclopedia</h1><p class="section-desc" data-i18n-html="page.gardening.subtitle">18 plants: flowers, vegetables, fruits &amp; herbs &mdash; growing tips &amp; profit analysis</p></div>
+
+<div class="prose" id="guideContent">
+<h2 id="basics" data-i18n-html="page.gardening.basics">&#x1F331; Gardening Basics</h2>
+<p data-i18n-html="page.gardening.basicsP1">Gardening is the most <strong>stable passive income source</strong> in Heartopia. Plant crops in your garden, water regularly, and wait for harvest. Different crops have different growth cycles, watering needs, and seasonal preferences.</p>
+<div class="callout callout-info" data-i18n-html="page.gardening.tip1"><strong>&#x1F4A1; Beginner Recommendation:</strong> You start with <strong>Basic Seeds x10</strong>. Plant lettuce (2-day growth) and tomatoes (3-day growth) first &mdash; fast growth with low failure cost.</div>
+
+<h3 data-i18n-html="page.gardening.steps">Gardening Steps</h3>
+<ol><li data-i18n-html="page.gardening.step1">Use hoe to till soil in your garden (creates planting plots)</li><li data-i18n-html="page.gardening.step2">Select and sow seeds</li><li data-i18n-html="page.gardening.step3">Water with watering can (some crops need multiple waterings)</li><li data-i18n-html="page.gardening.step4">Wait for growth (check the progress bar)</li><li data-i18n-html="page.gardening.step5">Harvest when ripe! Some crops can be harvested multiple times</li></ol>
+
+<h2 id="tips" data-i18n-html="page.gardening.tipsTitle">&#x1F4A1; Gardening Tips</h2>
+<ul>
+<li data-i18n-html="page.gardening.tip2"><strong>Season Match:</strong> In-season crops grow 20% faster. Off-season planting extends growth time.</li>
+<li data-i18n-html="page.gardening.tip3"><strong>Repeat Harvest:</strong> Tomatoes, blueberries and similar crops can fruit again without replanting (up to 3 times).</li>
+<li data-i18n-html="page.gardening.tip4"><strong>Watering Trick:</strong> Rain automatically waters crops &mdash; no manual watering needed. Check weather forecasts!</li>
+<li data-i18n-html="page.gardening.tip5"><strong>Fertilizer:</strong> Fertilizer reduces growth time by 20%. Highly recommended for high-value crops (watermelon, pumpkin).</li>
+<li data-i18n-html="page.gardening.tip6"><strong>Garden Layout:</strong> Same-type plants adjacent trigger the "Companion" effect, increasing yield by 10%.</li>
+</ul>
+<div class="callout callout-success" data-i18n-html="page.gardening.best"><strong>&#x1F3C6; Highest Profit:</strong> Watermelon (600&#x1F4B0;/each) + Pumpkin (300&#x1F4B0;/each). Long growth cycle but best daily profit per plot.</div>
+
+<h2 id="encyclopedia" data-i18n-html="page.gardening.encyclopedia">&#x1F4CA; Planting Encyclopedia</h2>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+<input type="text" id="dbSearch" placeholder="&#x1F50D; Search plants..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+<select id="sortSelect" class="sort-select"><option value="id">Default</option><option value="name">Name A-Z</option><option value="-sellPrice">Price High&#x2192;Low</option><option value="growthDays">Growth Short&#x2192;Long</option><option value="-rarity">Rarity High&#x2192;Low</option></select>
+<label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;"><input type="checkbox" id="toggleUncollected"> Show unplanted only</label>
+</div>
+<div class="filter-bar">
+<div class="filter-group"><span class="filter-label">Season</span><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="0">&#x1F338;Spr</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="1">&#x2600;&#xFE0F;Sum</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="2">&#x1F342;Aut</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="3">&#x2744;&#xFE0F;Win</button></div>
+<span class="filter-divider"></span>
+<div class="filter-group"><span class="filter-label">Type</span><button class="filter-btn" data-filter-group="type" data-filter-value="flower">&#x1F490;Flower</button><button class="filter-btn" data-filter-group="type" data-filter-value="crop">&#x1F96C;Crop</button><button class="filter-btn" data-filter-group="type" data-filter-value="fruit">&#x1F353;Fruit</button><button class="filter-btn" data-filter-group="type" data-filter-value="herb">&#x1F33F;Herb</button><button class="filter-btn" data-filter-group="type" data-filter-value="tree">&#x1F333;Tree</button></div>
+</div>
+<p class="db-count" id="dbCount">Found <strong>18</strong> results</p>
+<div id="dbResults"></div>
+</div>
+<aside class="sidebar-toc" id="sidebarToc"><div class="toc-title">&#x1F4D1; Contents</div><nav></nav></aside>
+</div></div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script><script src="data/plants.js"></script><script src="js/database.js"></script>
+<script>
+initGuidePage({titleKey:'page.gardening.h1',parent:'',currentNav:'gardening.html'});
+buildTOC('#guideContent','#sidebarToc');
+const seasonNames={0:'Spr&#x1F338;',1:'Sum&#x2600;&#xFE0F;',2:'Aut&#x1F342;',3:'Win&#x2744;&#xFE0F;'};
+const typeNames={flower:'Flower',crop:'Crop',fruit:'Fruit',herb:'Herb',fungus:'Fungus',tree:'Tree'};
+const typeColors={flower:'tag-flower',crop:'tag-crop',fruit:'tag-fruit',herb:'tag-herb',fungus:'tag-fungus',tree:'tag-tree-plant'};
+class GardenDB extends EncyclopediaDB{
+  constructor(){super(GARDEN_DB,{defaultSort:'id'},'heartopia_garden_collected');}
+  _renderTableRow(item,collectIcon,collectedClass){
+    const seasons=item.season.map(s=>`<span style="padding:1px 6px;border-radius:100px;font-size:0.7rem;margin:0 1px;background:#E8F5E9;color:#2E7D32;">${seasonNames[s]}</span>`).join('');
+    return `<tr><td class="col-icon">${item.icon}</td><td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.nameEn}</small></td><td><span class="${typeColors[item.type]}" style="padding:2px 8px;border-radius:100px;font-size:0.73rem;font-weight:600;">${typeNames[item.type]}</span></td><td>${seasons}</td><td class="col-growth">${item.growthDays}d<br><small style="color:var(--brown-lighter);">Water ${item.waterFreq}x/day</small></td><td>${item.harvestYield}</td><td class="col-price">${item.sellPrice}&#x1F4B0;</td><td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td></tr>`;
+  }
+  _renderCard(item,collectIcon,collectedClass){
+    const seasons=item.season.map(s=>seasonNames[s]).join(' · ');
+    return `<div class="db-card"><div class="card-icon-big">${item.icon}</div><div class="card-info"><h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.nameEn}</small></h4><div class="card-tags"><span class="card-tag ${typeColors[item.type]}">${typeNames[item.type]}</span><span class="card-tag tag-season">${seasons}</span><span class="card-tag tag-location">Growth ${item.growthDays}d</span></div><p style="font-size:0.8rem;color:var(--brown-light);margin-top:4px;">&#x1F331; ${item.harvestYield} · &#x1F4A7; ${item.waterFreq}x/day · &#x1F4B0; ${item.sellPrice} gold</p><p style="font-size:0.78rem;color:var(--brown-lighter);margin-top:2px;">${item.tips}</p></div><button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button></div>`;
+  }
+}
+new GardenDB().init();new GardenDB().render();
+</script>
+</body>
+</html>

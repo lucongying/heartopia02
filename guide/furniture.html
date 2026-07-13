@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.furniture.title" data-i18n-desc="page.furniture.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furniture Catalog - Heartopia Building Guide</title>
+<meta name="description" content="Heartopia furniture catalog: living room, bedroom, kitchen, garden, decoration items. Includes acquisition methods, material recipes, theme styles and rarity. Build your dream home.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.tag-modern{background:#E3F2FD;color:#1565C0;} .tag-vintage{background:#FFF8E1;color:#F57F17;}
+.tag-fairy{background:#FCE4EC;color:#880E4F;} .tag-nature{background:#E8F5E9;color:#2E7D32;}
+.tag-exotic{background:#F3E5F5;color:#4A148C;} .tag-mlp{background:#E1F5FE;color:#0277BD;}
+.tag-pet{background:#FFF3E0;color:#E65100;} .tag-resort{background:#E0F2F1;color:#00695C;}
+</style>
+</head>
+<body>
+<main><div class="container"><div class="page-layout"><div>
+<div class="mobile-toc"></div>
+<div class="section-header"><div class="section-divider"></div><h1 data-i18n-html="page.furniture.h1">&#x1F3E0; Furniture Catalog &amp; Building Guide</h1><p class="section-desc" data-i18n-html="page.furniture.subtitle">20 selected furniture pieces: sources, material recipes &amp; style categories</p></div>
+
+<div class="prose" id="guideContent">
+<h2 id="basics" data-i18n-html="page.furniture.basics">&#x1F528; Building System Basics</h2>
+<p data-i18n-html="page.furniture.basicsP1">Building and decorating is the most creative system in Heartopia. Freely place furniture, change wall colors, arrange garden decor &mdash; create your <strong>one-of-a-kind dream home</strong>. Furniture comes from shops, carpentry, event rewards and rare drops.</p>
+<div class="callout callout-info" data-i18n-html="page.furniture.tip1"><strong>&#x1F4A1; Beginner Tip:</strong> Your starter home includes basic furniture (single bed, kitchen counter, basic table and chairs). Prioritize buying a <strong>Wardrobe</strong> and <strong>Bookshelf</strong> &mdash; increasing your home score unlocks more furniture slots.</div>
+
+<h3 data-i18n-html="page.furniture.sources">Furniture Sources</h3>
+<ul>
+<li data-i18n-html="page.furniture.src1"><strong>Shop Purchase:</strong> Most direct way. Shop inventory refreshes daily &mdash; buy what you like quickly!</li>
+<li data-i18n-html="page.furniture.src2"><strong>Carpentry Crafting:</strong> Collect wood/stone/metal and craft at the workshop</li>
+<li data-i18n-html="page.furniture.src3"><strong>Event Exclusive:</strong> Seasonal and collab event furniture &mdash; gone when the event ends</li>
+<li data-i18n-html="page.furniture.src4"><strong>Rare Drops:</strong> Extremely low chance to get special decor while fishing/catching bugs/birdwatching</li>
+</ul>
+<div class="callout callout-warn" data-i18n-html="page.furniture.warn"><strong>&#x26A0;&#xFE0F; Warning:</strong> Event-exclusive furniture (MLP Rainbow Sofa, Sakura Tree Lamp) cannot be traded. Miss the event = wait for a rerun!</div>
+<h2 id="encyclopedia" data-i18n-html="page.furniture.encyclopedia">&#x1F4CA; Furniture Catalog</h2>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+<input type="text" id="dbSearch" placeholder="&#x1F50D; Search furniture..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+<select id="sortSelect" class="sort-select"><option value="id">Default</option><option value="name">Name A-Z</option><option value="-sellPrice">Price High&#x2192;Low</option><option value="-rarity">Rarity High&#x2192;Low</option></select>
+<label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;"><input type="checkbox" id="toggleUncollected"> Show unowned only</label>
+</div>
+<div class="filter-bar">
+<div class="filter-group"><span class="filter-label">Category</span><button class="filter-btn" data-filter-group="category" data-filter-value="客厅">&#x1F6CB;&#xFE0F;Living Room</button><button class="filter-btn" data-filter-group="category" data-filter-value="卧室">&#x1F6CF;&#xFE0F;Bedroom</button><button class="filter-btn" data-filter-group="category" data-filter-value="厨房">&#x1F373;Kitchen</button><button class="filter-btn" data-filter-group="category" data-filter-value="庭院">&#x1F333;Yard</button><button class="filter-btn" data-filter-group="category" data-filter-value="装饰">&#x1F5BC;&#xFE0F;Decor</button></div>
+<span class="filter-divider"></span>
+<div class="filter-group"><span class="filter-label">Rarity</span><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="1">&#x2B50;Common</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="2">&#x2B50;&#x2B50;Rare</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="3">&#x2B50;&#x2B50;&#x2B50;Limited</button></div>
+</div>
+<p class="db-count" id="dbCount">Found <strong>20</strong> results</p>
+<div id="dbResults"></div>
+</div>
+<aside class="sidebar-toc" id="sidebarToc"><div class="toc-title">&#x1F4D1; Contents</div><nav></nav></aside>
+</div></div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script><script src="data/furniture.js"></script><script src="js/database.js"></script>
+<script>
+initGuidePage({titleKey:'page.furniture.h1',parent:'',currentNav:'furniture.html'});
+buildTOC('#guideContent','#sidebarToc');
+const themeColors={'现代简约':'tag-modern','文艺复古':'tag-vintage','公主梦幻':'tag-fairy','自然田园':'tag-nature','异域风情':'tag-exotic','彩虹小马联动':'tag-mlp','宠物用品':'tag-pet','度假风情':'tag-resort','温馨复古':'tag-vintage','童话梦幻':'tag-fairy','春日花见':'tag-fairy'};
+class FurnDB extends EncyclopediaDB{
+  constructor(){super(FURNITURE_DB,{defaultSort:'id'},'heartopia_furniture_collected');}
+  _renderTableRow(item,collectIcon,collectedClass){
+    const mats=item.materials&&item.materials.length>0?item.materials.map(m=>`${m.name}x${m.qty}`).join(' · '):'&mdash;';
+    return `<tr><td class="col-icon">${item.icon}</td><td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.nameEn}</small></td><td><span class="${themeColors[item.theme]||''}" style="padding:2px 8px;border-radius:100px;font-size:0.73rem;font-weight:600;">${item.theme}</span></td><td>${item.category}</td><td style="font-size:0.82rem;">${item.source}</td><td style="font-size:0.8rem;">${mats}</td><td>${typeof item.sellPrice==='number'?item.sellPrice+'&#x1F4B0;':item.sellPrice}</td><td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td></tr>`;
+  }
+  _renderCard(item,collectIcon,collectedClass){
+    const mats=item.materials&&item.materials.length>0?item.materials.map(m=>`${m.name}x${m.qty}`).join(' · '):'No materials needed';
+    return `<div class="db-card"><div class="card-icon-big">${item.icon}</div><div class="card-info"><h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.nameEn}</small></h4><div class="card-tags"><span class="card-tag ${themeColors[item.theme]||''}">${item.theme}</span><span class="card-tag tag-rarity">${'&#x2B50;'.repeat(item.rarity)}</span><span class="card-tag tag-location">${item.category} · ${item.size}</span></div><p style="font-size:0.8rem;color:var(--brown-light);margin-top:4px;">&#x1F4E6; ${item.source}</p><p style="font-size:0.78rem;color:var(--brown-lighter);">&#x1F527; ${mats}</p><p style="font-size:0.78rem;color:var(--brown-lighter);">&#x1F4B0; ${typeof item.sellPrice==='number'?item.sellPrice+' gold':item.sellPrice}</p></div><button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button></div>`;
+  }
+}
+new FurnDB().init();new FurnDB().render();
+</script>
+</body>
+</html>

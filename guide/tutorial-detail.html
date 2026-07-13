@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial - Heartopia Guide</title>
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.detail-icon { font-size: 3.5rem; display: block; text-align: center; margin-bottom: 8px; }
+.detail-header { text-align: center; padding: 24px 0 28px; }
+.detail-header h1 { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; margin-bottom: 8px; }
+.detail-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; align-items: center; }
+.detail-meta span { font-size: 0.82rem; color: var(--brown-lighter); }
+.cat-badge { padding: 3px 10px; border-radius: 100px; font-size: 0.73rem; font-weight: 700; color: #fff; display: inline-block; }
+.cat-badge.beginner { background: #4CAF50; } .cat-badge.gameplay { background: #2196F3; } .cat-badge.events { background: #9C27B0; }
+.detail-content { max-width: 760px; margin: 0 auto 40px; background: var(--warm-white); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); }
+.detail-content h2 { font-size: 1.15rem; font-weight: 700; margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 1.5px solid rgba(74,55,40,0.08); }
+.detail-content h2:first-child { margin-top: 0; }
+.detail-content h3 { font-size: 1rem; font-weight: 700; margin: 18px 0 8px; color: var(--brown-light); }
+.detail-content p { font-size: 0.9rem; line-height: 1.75; margin: 8px 0; color: var(--brown-light); }
+.detail-content ul,.detail-content ol { margin: 6px 0 12px; padding-left: 20px; font-size: 0.9rem; color: var(--brown-light); }
+.detail-content li { margin-bottom: 4px; }
+.detail-content strong { color: var(--brown); }
+.detail-content code { background: rgba(74,55,40,0.05); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; }
+/* Scene image cards — clean screenshots without overlay marks */
+.tutorial-img { margin: 20px 0; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-md); position: relative; aspect-ratio: 16/9; }
+.tutorial-img .img-scene { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 40px 16px 14px; background: linear-gradient(transparent, rgba(0,0,0,0.35)); }
+.tutorial-img .scene-icons { display: none; }
+.tutorial-img .scene-label { display: block; color: rgba(255,255,255,0.92); font-size: 0.78rem; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.tutorial-img .img-badge { display: none; }
+.img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.img-row .tutorial-img { margin: 0; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--coral-dark); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 16px; transition: opacity 0.2s; }
+.back-link:hover { opacity: 0.8; text-decoration: underline; }
+@media(max-width:640px){ .detail-content { padding: 20px 16px; } .img-row { grid-template-columns: 1fr; }  }
+</style>
+</head>
+<body>
+<main><div class="container">
+  <a href="tutorials.html" class="back-link" data-i18n-html="back.tutorials">← Back to Tutorials</a>
+  <div id="detailContainer"></div>
+</div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/tutorials.js"></script>
+<script>
+initGuidePage({ titleKey: 'page.tutorials.h1', currentNav: 'tutorials.html' });
+
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var tutorial = TUTORIALS_DB.find(function(t) { return t.id === id; });
+  var container = document.getElementById('detailContainer');
+
+  function t(key) { return (typeof I18N !== 'undefined') ? I18N.t(key) : key; }
+  function isEn() { return typeof I18N === 'undefined' || I18N.currentLang !== 'zh'; }
+
+  if (!tutorial) {
+    container.innerHTML = '<div style="text-align:center;padding:60px;color:var(--brown-lighter);">'
+      + '<p style="font-size:1.2rem;margin-bottom:12px;">' + t('tutorial.notFound') + '</p>'
+      + '<a href="tutorials.html" style="color:var(--coral-dark);">' + t('tutorial.notFoundLink') + '</a>'
+      + '</div>';
+  } else {
+    renderDetail();
+  }
+
+  function renderDetail() {
+    var title = isEn() ? (tutorial.titleEn || tutorial.title) : tutorial.title;
+    var desc = isEn() ? (tutorial.descEn || tutorial.desc) : tutorial.desc;
+    var content = isEn() ? (tutorial.contentEn || tutorial.content) : tutorial.content;
+    var cat = t('filter.cat.' + tutorial.category);
+    var stars = '⭐'.repeat(tutorial.difficulty);
+
+    container.innerHTML =
+      '<div class="detail-header">'
+      + '<span class="detail-icon">' + tutorial.icon + '</span>'
+      + '<h1>' + title + '</h1>'
+      + '<div class="detail-meta">'
+      + '<span class="cat-badge ' + tutorial.category + '">' + cat + '</span>'
+      + '<span>' + stars + '</span>'
+      + '<span>⏱ ' + tutorial.readTime + '</span>'
+      + '</div>'
+      + '<p style="max-width:560px;margin:10px auto 0;color:var(--brown-lighter);font-size:0.88rem;">' + desc + '</p>'
+      + '</div>'
+      + '<div class="detail-content">' + content + '</div>';
+
+    document.title = title + ' - Heartopia Guide';
+
+    // Inject real screenshot images into placeholder divs
+    injectTutorialImages();
+  }
+
+  function injectTutorialImages() {
+    // Map scene classes to gallery images (no new files created)
+    var sceneToGallery = {
+      'scene-town':   '../images/screenshots/gallery_4.jpg',  // Friend Gathering
+      'scene-home':   '../images/screenshots/gallery_1.jpg',  // Dream Home
+      'scene-water':  '../images/screenshots/gallery_2.jpg',  // Lakeside Fishing
+      'scene-farm':   '../images/screenshots/gallery_3.jpg',  // Garden Stroll
+      'scene-forest': '../images/screenshots/gallery_3.jpg',  // Garden Stroll
+      'scene-fest':   '../images/screenshots/gallery_5.jpg',  // Cat Time
+      'scene-night':  '../images/screenshots/gallery_5.jpg'   // Cat Time
+    };
+
+    var placeholders = container.querySelectorAll('.tutorial-img');
+    for (var i = 0; i < placeholders.length; i++) {
+      var el = placeholders[i];
+      if (el.querySelector('img.tutorial-screenshot')) continue;
+
+      // Extract scene class (e.g. "scene-town" or "scene-town-2")
+      var classes = el.className.split(' ');
+      var sceneClass = '';
+      for (var j = 0; j < classes.length; j++) {
+        if (classes[j].indexOf('scene-') === 0) {
+          sceneClass = classes[j];
+          break;
+        }
+      }
+      if (!sceneClass) continue;
+
+      // Strip variant suffix to get base scene name (e.g. "scene-town-2" → "scene-town")
+      var baseScene = sceneClass.replace(/-\d+$/, '');
+      var imgSrc = sceneToGallery[baseScene] || sceneToGallery['scene-town'];
+
+      var img = document.createElement('img');
+      img.className = 'tutorial-screenshot';
+      img.src = imgSrc;
+      img.alt = baseScene.replace('scene-', '') + ' screenshot';
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;';
+      el.insertBefore(img, el.firstChild);
+    }
+  }
+
+  // Re-render on language change
+  document.addEventListener('langChanged', function() {
+    if (tutorial) { renderDetail(); }
+  });
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+

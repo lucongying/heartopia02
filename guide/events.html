@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.events.title" data-i18n-desc="page.events.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Guide - Heartopia Limited Events &amp; Rewards</title>
+<meta name="description" content="Heartopia event guide: summer festival, fishing contest, Rainbow Pony collab and all limited events. Task lists, exclusive rewards, and event schedules. Never miss limited items.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.event-card {
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(74, 55, 40, 0.05);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card.active-card {
+  border-left: 4px solid var(--mint);
+  background: linear-gradient(135deg, var(--warm-white) 0%, rgba(123,198,126,0.04) 100%);
+}
+
+.event-card.upcoming-card {
+  border-left: 4px solid var(--gold);
+  background: linear-gradient(135deg, var(--warm-white) 0%, rgba(255,179,71,0.04) 100%);
+}
+
+.event-card.past-card {
+  opacity: 0.75;
+  border-left: 4px solid #ccc;
+}
+
+.event-card .event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.event-card .event-header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.event-status {
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.event-status.status-active { background: rgba(123,198,126,0.15); color: #2E7D32; }
+.event-status.status-upcoming { background: rgba(255,179,71,0.18); color: #C7851E; }
+.event-status.status-past { background: rgba(74,55,40,0.06); color: var(--brown-lighter); }
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  color: var(--brown-light);
+}
+
+.event-meta span { display: flex; align-items: center; gap: 4px; }
+
+.event-card h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--brown);
+}
+
+.reward-chips, .task-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.chip {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.chip-reward { background: rgba(255,215,0,0.15); color: #8B6914; }
+.chip-task { background: rgba(74,55,40,0.05); color: var(--brown-light); }
+
+.event-card p { font-size: 0.9rem; color: var(--brown-lighter); line-height: 1.6; }
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(74,55,40,0.12);
+  background: var(--warm-white);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  color: var(--brown-light);
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover { border-color: var(--coral); }
+.tab-btn.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="container">
+    <div class="page-layout no-sidebar">
+      <div>
+        <div class="section-header">
+          <div class="section-divider"></div>
+          <h1 data-i18n-html="page.events.h1">&#x1F389; Event Guide</h1>
+          <p class="section-desc" data-i18n-html="page.events.subtitle">Track all limited-time events, collabs &amp; seasonal celebrations. Never miss exclusive rewards!</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="all" data-i18n-html="page.events.tab.all">&#x1F4CB; All Events</button>
+          <button class="tab-btn" data-tab="active" data-i18n-html="page.events.tab.active">&#x1F7E2; Active</button>
+          <button class="tab-btn" data-tab="upcoming" data-i18n-html="page.events.tab.upcoming">&#x1F7E1; Upcoming</button>
+          <button class="tab-btn" data-tab="past" data-i18n-html="page.events.tab.past">&#x26AA; Past</button>
+        </div>
+
+        <div id="eventsContainer"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/events.js"></script>
+<script>
+  initGuidePage({ titleKey: 'page.events.h1', parent: '', currentNav: 'events.html' });
+
+  const EVENTS = EVENTS_DB;
+  let currentTab = 'all';
+
+  // Status labels (English defaults, switched by I18N.t())
+  function getStatusLabel(status) {
+    const key = status === 'active' ? 'page.events.statusActive' :
+                status === 'upcoming' ? 'page.events.statusUpcoming' :
+                'page.events.statusPast';
+    return I18N.t(key);
+  }
+
+  function getEventTypeLabel(type) {
+    const key = type === 'seasonal' ? 'page.events.typeSeasonal' :
+                type === 'collab' ? 'page.events.typeCollab' :
+                'page.events.typeLimited';
+    return I18N.t(key);
+  }
+
+  const statusClasses = {
+    active: 'status-active',
+    upcoming: 'status-upcoming',
+    past: 'status-past'
+  };
+
+  function getRewardsLabel() { return I18N.t('page.events.rewards'); }
+  function getTasksLabel() { return I18N.t('page.events.tasks'); }
+  function getNoEventsLabel() { return I18N.t('page.events.noEvents'); }
+
+  function renderEvents(filter) {
+    const container = document.getElementById('eventsContainer');
+    const filtered = filter === 'all' ? EVENTS : EVENTS.filter(e => e.status === filter);
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="text-center" style="padding:40px;color:var(--brown-lighter);">' + getNoEventsLabel() + '</div>';
+      return;
+    }
+
+    container.innerHTML = filtered.map(e => `
+      <div class="event-card ${e.status}-card">
+        <div class="event-header">
+          <h3>${e.name} <small style="color:var(--brown-lighter);font-weight:400;">${e.nameEn}</small></h3>
+          <span class="event-status ${statusClasses[e.status]}">${getStatusLabel(e.status)}</span>
+        </div>
+        <div class="event-meta">
+          <span>&#x1F4C5; ${e.startDate} ~ ${e.endDate}</span>
+          <span>&#x1F3F7;&#xFE0F; ${getEventTypeLabel(e.type)}</span>
+        </div>
+        <h4>${getRewardsLabel()}</h4>
+        <div class="reward-chips">
+          ${e.rewards.map(r => `<span class="chip chip-reward">${r}</span>`).join('')}
+        </div>
+        <h4>${getTasksLabel()}</h4>
+        <div class="task-chips">
+          ${e.tasks.map(t => `<span class="chip chip-task">${t}</span>`).join('')}
+        </div>
+        <p>${e.desc}</p>
+      </div>
+    `).join('');
+  }
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTab = btn.dataset.tab;
+      renderEvents(currentTab);
+    });
+  });
+
+  // Re-render on language change to update dynamic labels
+  document.addEventListener('langChanged', () => {
+    renderEvents(currentTab);
+  });
+
+  // Initial render
+  renderEvents('all');
+</script>
+</body>
+</html>

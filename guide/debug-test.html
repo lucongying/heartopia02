@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Test</title></head><body>
+<h1>Debug Test</h1>
+<div id="result"></div>
+<script src="data/tutorials.js"></script>
+<script>
+var r = document.getElementById('result');
+try {
+  if (typeof TUTORIALS_DB === 'undefined') {
+    r.innerHTML = 'ERROR: TUTORIALS_DB is not defined';
+  } else {
+    r.innerHTML = 'OK: TUTORIALS_DB has ' + TUTORIALS_DB.length + ' items<br>';
+    var first = TUTORIALS_DB[0];
+    r.innerHTML += 'First item id: ' + first.id + '<br>';
+    r.innerHTML += 'Has content: ' + (first.content ? 'YES (' + first.content.length + ' chars)' : 'NO') + '<br>';
+    r.innerHTML += 'Has contentEn: ' + (first.contentEn ? 'YES (' + first.contentEn.length + ' chars)' : 'NO');
+  }
+} catch(e) {
+  r.innerHTML = 'ERROR: ' + e.message;
+}
+</script>
+</body></html>

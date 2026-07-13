@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.npcs.title" data-i18n-desc="page.npcs.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPC Guide - Heartopia Character Gift &amp; Relationship Guide</title>
+<meta name="description" content="Heartopia NPC guide: 10 town residents with character profiles, loved gifts, hated gifts, daily schedules. Gift-giving relationship quick reference to boost friendship fast.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.npc-card{background:var(--warm-white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:18px;display:flex;gap:20px;align-items:flex-start;border:1px solid rgba(74,55,40,0.05);transition:all 0.3s;}
+.npc-card:hover{box-shadow:var(--shadow-md);}
+.npc-card .npc-avatar{font-size:3.5rem;flex-shrink:0;width:80px;text-align:center;line-height:1;}
+.npc-card .npc-details{flex:1;min-width:0;}
+.npc-card h3{font-size:1.15rem;margin-bottom:2px;}
+.npc-card .npc-role{font-size:0.85rem;color:var(--coral-dark);font-weight:600;margin-bottom:6px;}
+.npc-card .npc-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;font-size:0.82rem;}
+.gift-tags{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0;}
+.gift-tag{padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:500;}
+.gift-love{background:rgba(255,107,107,0.12);color:#C62828;}
+.gift-like{background:rgba(255,179,71,0.12);color:#C7851E;}
+.gift-hate{background:rgba(74,55,40,0.05);color:var(--brown-lighter);text-decoration:line-through;}
+.npc-schedule{font-size:0.82rem;color:var(--brown-lighter);margin-top:4px;font-style:italic;}
+@media(max-width:640px){.npc-card{flex-direction:column;text-align:center;}.npc-card .npc-avatar{margin:0 auto;}}
+</style>
+</head>
+<body>
+<main><div class="container"><div class="page-layout"><div>
+<div class="mobile-toc"></div>
+<div class="section-header"><div class="section-divider"></div><h1 data-i18n-html="page.npcs.h1">&#x1F465; NPC Guide &amp; Gift Reference</h1><p class="section-desc" data-i18n-html="page.npcs.subtitle">10 town residents: gift preferences, schedules &amp; friendship quick reference</p></div>
+
+<div class="prose" id="guideContent">
+<h2 id="basics" data-i18n-html="page.npcs.basics">&#x1F49D; Friendship System</h2>
+<p data-i18n-html="page.npcs.basicsP1">Building relationships with NPCs is the core of Heartopia's social system. Increase friendship through <strong>gifting, chatting, and completing quests</strong> to unlock exclusive recipes, discounts, storylines and hidden features.</p>
+<div class="callout callout-info" data-i18n-html="page.npcs.tip1"><strong>&#x1F4A1; Gifting Rules:</strong> Each NPC accepts one gift per day. &#x2764;&#xFE0F; Loved = +3 FP, &#x1F44D; Liked = +1, &#x1F44E; Hated = -2. Gifting on their birthday doubles the effect!</div>
+
+<h3 data-i18n-html="page.npcs.levels">Friendship Levels</h3>
+<div class="table-wrap"><table>
+<thead><tr><th data-i18n-html="page.npcs.thLevel">Level</th><th data-i18n-html="page.npcs.thPoints">FP Needed</th><th data-i18n-html="page.npcs.thUnlock">Unlocks</th></tr></thead>
+<tbody>
+<tr><td data-i18n-html="page.npcs.lv1">Lv.1 Stranger</td><td>0</td><td data-i18n-html="page.npcs.lv1u">Basic dialogue</td></tr>
+<tr><td data-i18n-html="page.npcs.lv2">Lv.2 Acquaintance</td><td>10</td><td data-i18n-html="page.npcs.lv2u">Daily commission quests</td></tr>
+<tr><td data-i18n-html="page.npcs.lv3">Lv.3 Friend</td><td>30</td><td data-i18n-html="page.npcs.lv3u">Exclusive recipes/skills</td></tr>
+<tr><td data-i18n-html="page.npcs.lv4">Lv.4 Good Friend</td><td>60</td><td data-i18n-html="page.npcs.lv4u">Shop discount + special story</td></tr>
+<tr><td data-i18n-html="page.npcs.lv5">Lv.5 Best Friend</td><td>100</td><td data-i18n-html="page.npcs.lv5u">Limited gift + special ability</td></tr>
+</tbody>
+</table></div>
+
+<h2 id="encyclopedia" data-i18n-html="page.npcs.encyclopedia">&#x1F4CA; NPC Character Guide</h2>
+</div>
+
+<div id="npcContainer"></div>
+</div>
+<aside class="sidebar-toc" id="sidebarToc"><div class="toc-title">&#x1F4D1; Contents</div><nav></nav></aside>
+</div></div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script><script src="data/npcs.js"></script>
+<script src="js/database.js"></script>
+<script>
+initGuidePage({titleKey:'page.npcs.h1',parent:'',currentNav:'npcs.html'});
+buildTOC('#guideContent','#sidebarToc');
+
+function renderNPCs() {
+  const container = document.getElementById('npcContainer');
+  container.innerHTML = NPCS_DB.map(npc => `
+    <div class="npc-card">
+      <div class="npc-avatar">${npc.icon}</div>
+      <div class="npc-details">
+        <h3>${npc.name} <small style="color:var(--brown-lighter);font-weight:400;">${npc.nameEn}</small></h3>
+        <div class="npc-role">${npc.role} · ${npc.personality} · &#x1F382; ${npc.birthday}</div>
+        <div class="npc-meta">
+          <div style="flex:1;min-width:0;">
+            <strong style="font-size:0.8rem;">&#x2764;&#xFE0F; Loves:</strong>
+            <div class="gift-tags">${npc.lovedGifts.map(g=>`<span class="gift-tag gift-love">${g}</span>`).join('')}</div>
+          </div>
+        </div>
+        <div class="npc-meta">
+          <div style="flex:1;min-width:0;">
+            <strong style="font-size:0.8rem;">&#x1F44D; Likes:</strong>
+            <div class="gift-tags">${npc.likedGifts.map(g=>`<span class="gift-tag gift-like">${g}</span>`).join('')}</div>
+          </div>
+        </div>
+        <div class="npc-meta">
+          <div style="flex:1;min-width:0;">
+            <strong style="font-size:0.8rem;">&#x1F44E; Hates:</strong>
+            <div class="gift-tags">${npc.hatedGifts.map(g=>`<span class="gift-tag gift-hate">${g}</span>`).join('')}</div>
+          </div>
+        </div>
+        <p class="npc-schedule">&#x1F4C5; ${npc.schedule}</p>
+        <p style="font-size:0.88rem;color:var(--brown-light);margin-top:6px;">${npc.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+renderNPCs();
+</script>
+</body>
+</html>

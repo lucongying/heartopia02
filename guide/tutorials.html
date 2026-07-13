@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.tutorials.title" data-i18n-desc="page.tutorials.subtitle">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Written Tutorials - Heartopia Guide</title>
+<meta name="description" content="12 detailed Heartopia guides with images and step-by-step instructions.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.tutorial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.tutorial-card { background: var(--warm-white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); text-decoration: none; color: inherit; display: flex; gap: 14px; align-items: flex-start; transition: all 0.3s; border: 1px solid rgba(74,55,40,0.05); }
+.tutorial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.tutorial-card .tut-icon { font-size: 2rem; flex-shrink: 0; width: 48px; text-align: center; }
+.tutorial-card .tut-body { flex: 1; min-width: 0; }
+.tutorial-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+.tutorial-card p { font-size: 0.82rem; color: var(--brown-lighter); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; }
+.tut-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; align-items: center; }
+.tut-meta span { font-size: 0.73rem; color: var(--brown-lighter); }
+.cat-badge { padding: 2px 8px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; color: #fff; display: inline-block; }
+.cat-badge.beginner { background: #4CAF50; } .cat-badge.gameplay { background: #2196F3; } .cat-badge.events { background: #9C27B0; }
+.filter-bar-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center; }
+.search-input { padding: 9px 16px; border-radius: 100px; border: 1.5px solid rgba(74,55,40,0.12); font-size: 0.9rem; font-family: var(--font-main); width: 200px; outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--coral); }
+.filter-btn { padding: 7px 16px; border-radius: 100px; font-size: 0.82rem; font-weight: 500; border: 1.5px solid rgba(74,55,40,0.12); background: var(--warm-white); color: var(--brown-light); cursor: pointer; font-family: var(--font-main); transition: all 0.2s; white-space: nowrap; }
+.filter-btn:hover { border-color: var(--coral); color: var(--coral-dark); }
+.filter-btn.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+.no-results { display: none; text-align: center; padding: 40px; color: var(--brown-lighter); }
+.no-results.show { display: block; }
+@media(max-width:640px){ .tutorial-grid { grid-template-columns: 1fr; } .search-input { width: 100%; } }
+</style>
+</head>
+<body>
+<main><div class="container">
+  <div class="section-header">
+    <div class="section-divider"></div>
+    <h1 data-i18n-html="page.tutorials.h1">📝 Written Tutorials</h1>
+    <p class="section-desc" data-i18n-html="page.tutorials.subtitle">12 detailed guides with images and step-by-step instructions</p>
+  </div>
+  <div class="filter-bar-wrap">
+    <input type="text" class="search-input" id="searchInput" data-i18n-placeholder="db.search" placeholder="Search...">
+    <button class="filter-btn active" data-cat="all" data-i18n="filter.all">All</button>
+    <button class="filter-btn" data-cat="beginner" data-i18n="filter.cat.beginner">Beginner</button>
+    <button class="filter-btn" data-cat="gameplay" data-i18n="filter.cat.gameplay">Gameplay</button>
+    <button class="filter-btn" data-cat="events" data-i18n="filter.cat.events">Events</button>
+  </div>
+  <p style="font-size:0.85rem;color:var(--brown-lighter);margin-bottom:16px;" id="resultCount"></p>
+  <div class="tutorial-grid" id="tutorialGrid"></div>
+  <div class="no-results" id="noResults" data-i18n-html="tutorial.noResults">No tutorials found. Try a different search or filter.</div>
+</div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/tutorials.js"></script>
+<script>
+initGuidePage({ titleKey: 'page.tutorials.h1', currentNav: 'tutorials.html' });
+
+(function() {
+  var catFilter = 'all';
+  var searchQuery = '';
+
+  function t(key, replacements) {
+    return (typeof I18N !== 'undefined') ? I18N.t(key, replacements) : key;
+  }
+
+  function getLang() { return (typeof I18N !== 'undefined') ? I18N.currentLang : 'en'; }
+  function getTitle(item) { return getLang() === 'zh' ? item.title : (item.titleEn || item.title); }
+  function getDesc(item) { return getLang() === 'zh' ? item.desc : (item.descEn || item.desc); }
+  function getCatLabel(cat) { return t('filter.cat.' + cat); }
+
+  function render() {
+    var filtered = TUTORIALS_DB.filter(function(item) {
+      if (catFilter !== 'all' && item.category !== catFilter) return false;
+      if (searchQuery) {
+        var q = searchQuery.toLowerCase();
+        var hay = (item.title + ' ' + (item.titleEn||'') + ' ' + item.desc + ' ' + (item.descEn||'') + ' ' + (item.tags||[]).join(' ')).toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    document.getElementById('resultCount').textContent = t('tutorial.showing', { count: filtered.length, total: TUTORIALS_DB.length });
+    var noRes = document.getElementById('noResults');
+    var grid = document.getElementById('tutorialGrid');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      noRes.classList.add('show');
+    } else {
+      noRes.classList.remove('show');
+      grid.innerHTML = filtered.map(function(item) {
+        return '<a href="tutorial-detail.html?id=' + item.id + '" class="tutorial-card">'
+          + '<span class="tut-icon">' + item.icon + '</span>'
+          + '<div class="tut-body">'
+          + '<h3>' + getTitle(item) + '</h3>'
+          + '<div class="tut-meta">'
+          + '<span class="cat-badge ' + item.category + '">' + getCatLabel(item.category) + '</span>'
+          + '<span>' + '⭐'.repeat(item.difficulty) + '</span>'
+          + '<span>⏱ ' + item.readTime + '</span>'
+          + '</div>'
+          + '<p>' + getDesc(item) + '</p>'
+          + '</div></a>';
+      }).join('');
+    }
+  }
+
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      catFilter = btn.dataset.cat;
+      render();
+    });
+  });
+
+  // Search
+  document.getElementById('searchInput').addEventListener('input', function() {
+    searchQuery = this.value.trim();
+    render();
+  });
+
+  // Initial render
+  render();
+
+  // Language change — re-render cards + update filter button labels
+  document.addEventListener('langChanged', function() {
+    // Update filter button text
+    document.querySelectorAll('.filter-btn[data-cat="all"]').forEach(function(b) { b.textContent = t('filter.all'); });
+    document.querySelectorAll('.filter-btn[data-cat="beginner"]').forEach(function(b) { b.textContent = t('filter.cat.beginner'); });
+    document.querySelectorAll('.filter-btn[data-cat="gameplay"]').forEach(function(b) { b.textContent = t('filter.cat.gameplay'); });
+    document.querySelectorAll('.filter-btn[data-cat="events"]').forEach(function(b) { b.textContent = t('filter.cat.events'); });
+    render();
+  });
+})();
+</script>
+</body>
+</html>

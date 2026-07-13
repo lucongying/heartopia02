@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.bugs.title" data-i18n-desc="page.bugs.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bug Encyclopedia - Heartopia Bug Catching Guide</title>
+<meta name="description" content="Heartopia complete bug encyclopedia with 23 insects including season, habitat, time, rarity and sell price. Butterflies, beetles, dragonflies, cicadas and more.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.db-table .col-season { white-space: nowrap; }
+.tag-garden{background:#E8F5E9;color:#2E7D32;} .tag-meadow{background:#FFF8E1;color:#F57F17;}
+.tag-forest{background:#E8EAF6;color:#1A237E;} .tag-river-bug{background:#E0F2F1;color:#00695C;}
+.tag-pond-bug{background:#F3E5F5;color:#4A148C;}
+</style>
+</head>
+<body>
+<main><div class="container"><div class="page-layout"><div>
+<div class="mobile-toc"></div>
+<div class="section-header"><div class="section-divider"></div><h1 data-i18n-html="page.bugs.h1">🪲 Bug Catching &amp; Insect Encyclopedia</h1><p class="section-desc" data-i18n-html="page.bugs.subtitle">Master bug catching and collect all 23 insect species</p></div>
+
+<div class="prose" id="guideContent">
+<h2 id="basics" data-i18n-html="page.bugs.basics">🎯 Bug Catching Basics</h2>
+<p data-i18n-html="page.bugs.basicsP1">Bug catching is one of the <strong>most challenging</strong> hobbies in Heartopia. Unlike fishing, you need to hold your net, sneak up on targets, and swing at the right moment. Each insect has different alertness and flight patterns.</p>
+<div class="callout callout-info" data-i18n-html="page.bugs.tip1">💡 <strong>Beginner Tip:</strong> Start with the Cabbage White — slow flight, wide distribution, low price but won't flee too fast. Master the "sneak key" (gentle joystick push) before challenging rare insects.</div>
+
+<h3 data-i18n-html="page.bugs.steps">Bug Catching Steps</h3>
+<ol><li data-i18n-html="page.bugs.step1">Equip bug net (Backpack → Tools → Bug Net)</li><li data-i18n-html="page.bugs.step2">Find target insect (different species in different habitats)</li><li data-i18n-html="page.bugs.step3">Hold sneak key and approach slowly (don't run!)</li><li data-i18n-html="page.bugs.step4">Release to swing when in net range!</li><li data-i18n-html="page.bugs.step5">Insect is automatically added to your backpack on hit</li></ol>
+
+<h2 id="types" data-i18n-html="page.bugs.types">🦋 Insect Categories</h2>
+<div class="table-wrap"><table>
+<thead><tr><th data-i18n-html="table.bugs.category">Category</th><th data-i18n-html="table.bugs.representative">Representative</th><th data-i18n-html="table.bugs.bestTime">Best Time</th><th data-i18n-html="table.bugs.tip">Tip</th></tr></thead>
+<tbody>
+<tr><td data-i18n-html="cat.butterfly">🦋 Butterflies</td><td data-i18n-html="cat.butterfly.rep">Cabbage White, Swallowtail, Morpho</td><td data-i18n-html="cat.butterfly.time">Daytime sunny</td><td data-i18n-html="cat.butterfly.tip">Erratic flight path, predict landing spot</td></tr>
+<tr><td data-i18n-html="cat.beetle">🪲 Beetles</td><td data-i18n-html="cat.beetle.rep">Rhino Beetle, Stag Beetle</td><td data-i18n-html="cat.beetle.time">Summer night, on trees</td><td data-i18n-html="cat.beetle.tip">Best caught when stationary</td></tr>
+<tr><td data-i18n-html="cat.cicada">🦗 Cicadas/Grasshoppers</td><td data-i18n-html="cat.cicada.rep">Cicada, Grasshopper</td><td data-i18n-html="cat.cicada.time">Summer all day</td><td data-i18n-html="cat.cicada.tip">Follow the sound, will jump if approached</td></tr>
+<tr><td data-i18n-html="cat.dangerous">🕷️ Dangerous</td><td data-i18n-html="cat.dangerous.rep">Scorpion, Tarantula</td><td data-i18n-html="cat.dangerous.time">Nighttime</td><td data-i18n-html="cat.dangerous.tip">Approach with net raised, it will attack!</td></tr>
+</tbody>
+</table></div>
+
+<div class="callout callout-warn" data-i18n-html="page.bugs.warn">⚠️ <strong>Warning:</strong> Scorpions and Tarantulas are aggressive! If spotted and you get too close, they will attack and stun you. Correct approach: Hold net, approach extremely slowly, STOP when it raises claws/legs, continue when it lowers them.</div>
+<div class="callout callout-success" data-i18n-html="page.bugs.best">🏆 <strong>Most Valuable:</strong> Orchid Mantis (4000💰), Blue Morpho (3000💰), Tarantula (2500💰). Never miss these!</div>
+
+<h2 id="encyclopedia" data-i18n-html="page.bugs.encyclopedia">📊 Insect Encyclopedia</h2>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+<input type="text" id="dbSearch" placeholder="🔍 搜索昆虫..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+<select id="sortSelect" class="sort-select"><option value="id">默认排序</option><option value="name">名称 A-Z</option><option value="-price">价格 高→低</option><option value="price">价格 低→高</option><option value="-rarity">稀有度 高→低</option></select>
+<label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;"><input type="checkbox" id="toggleUncollected"> 仅显示未收集</label>
+</div>
+
+<div class="filter-bar">
+<div class="filter-group"><span class="filter-label">季节</span><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="0">🌸春</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="1">☀️夏</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="2">🍂秋</button><button class="filter-btn filter-season" data-filter-group="season" data-filter-value="3">❄️冬</button></div>
+<span class="filter-divider"></span>
+<div class="filter-group"><span class="filter-label">栖息地</span><button class="filter-btn filter-location" data-filter-group="location" data-filter-value="garden">🏡花园</button><button class="filter-btn filter-location" data-filter-group="location" data-filter-value="meadow">🌿草地</button><button class="filter-btn filter-location" data-filter-group="location" data-filter-value="forest">🌲森林</button><button class="filter-btn filter-location" data-filter-group="location" data-filter-value="river">🌊水边</button></div>
+<span class="filter-divider"></span>
+<div class="filter-group"><span class="filter-label">稀有度</span><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="1">⭐普通</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="2">⭐⭐稀有</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="3">⭐⭐⭐史诗</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="4">👑传说</button></div>
+</div>
+<p class="db-count" id="dbCount">共找到 <strong>23</strong> 条结果</p>
+<div id="dbResults"></div>
+</div>
+<aside class="sidebar-toc" id="sidebarToc"><div class="toc-title">📑 目录</div><nav></nav></aside>
+</div></div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script><script src="data/bugs.js"></script><script src="js/database.js"></script>
+<script>
+initGuidePage({titleKey:'page.bugs.h1',parent:'',currentNav:'bugs.html'});
+buildTOC('#guideContent','#sidebarToc');
+const seasonNames={0:'春🌸',1:'夏☀️',2:'秋🍂',3:'冬❄️'};
+const locNames={garden:'花园',meadow:'草地',forest:'森林',river:'水边',pond:'池塘',lake:'湖泊',desert:'沙漠'};
+const timeNames={all:'全天',morning:'清晨',afternoon:'午后',evening:'傍晚',night:'夜间'};
+class BugDB extends EncyclopediaDB{
+  constructor(){super(BUGS_DB,{defaultSort:'id'},'heartopia_bugs_collected');}
+  _renderTableRow(item,collectIcon,collectedClass){
+    const seasons=item.season.map(s=>`<span style="padding:1px 6px;border-radius:100px;font-size:0.7rem;margin:0 1px;background:#E8F5E9;color:#2E7D32;">${seasonNames[s]}</span>`).join('');
+    const locs=item.location.map(l=>`<span style="padding:1px 6px;border-radius:100px;font-size:0.7rem;margin:0 1px;background:#E3F2FD;color:#1565C0;">${locNames[l]||l}</span>`).join('');
+    return `<tr><td class="col-icon">${item.icon}</td><td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.nameEn}</small></td><td class="rarity-stars">${'⭐'.repeat(item.rarity)}</td><td class="col-season">${seasons}</td><td>${locs}</td><td style="font-size:0.82rem;">${timeNames[item.time]||item.time}</td><td class="col-price">${item.price}💰</td><td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td></tr>`;
+  }
+  _renderCard(item,collectIcon,collectedClass){
+    const seasons=item.season.map(s=>seasonNames[s]).join(' · ');
+    const locs=item.location.map(l=>locNames[l]||l).join(' · ');
+    return `<div class="db-card"><div class="card-icon-big">${item.icon}</div><div class="card-info"><h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.nameEn}</small></h4><div class="card-tags"><span class="card-tag tag-rarity">${'⭐'.repeat(item.rarity)}</span><span class="card-tag tag-season">${seasons}</span><span class="card-tag tag-location">${locs}</span><span class="card-tag tag-time">${timeNames[item.time]||item.time}</span></div><div class="card-price" style="margin-top:6px;">${item.price}💰</div><p style="font-size:0.78rem;color:var(--brown-lighter);margin-top:4px;">${item.desc}</p></div><button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button></div>`;
+  }
+}
+new BugDB().init();new BugDB().render();
+</script>
+</body>
+</html>

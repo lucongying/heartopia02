@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="hub.title" data-i18n-desc="hub.subtitle">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heartopia Guide - Player-built Game Guide</title>
+<meta name="description" content="Heartopia complete strategy guide: fish encyclopedia, recipes, money-making tips, beginner walkthrough, event guides. Look up game guides while playing on mobile.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+/* ===== Guide Hub Specific ===== */
+.hub-hero {
+  text-align: center;
+  padding: 40px 20px 32px;
+}
+
+.hub-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.hub-hero .hub-subtitle {
+  color: var(--brown-lighter);
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+.hub-hero .search-wrap {
+  margin: 0 auto;
+}
+
+/* Category grid */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.cat-card {
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(74, 55, 40, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.cat-card .cat-icon {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.cat-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.cat-card .cat-count {
+  font-size: 0.75rem;
+  color: var(--brown-lighter);
+}
+
+.cat-card .cat-progress {
+  height: 3px;
+  background: rgba(74, 55, 40, 0.08);
+  border-radius: 3px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.cat-card .cat-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint), var(--mint-dark));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.cat-card:nth-child(1) .cat-progress-fill { background: linear-gradient(90deg, #FF7B7B, #FFB347); }
+.cat-card:nth-child(2) .cat-progress-fill { background: linear-gradient(90deg, #FFB347, #FFD93D); }
+.cat-card:nth-child(3) .cat-progress-fill { background: linear-gradient(90deg, #87CEEB, #4A90D9); }
+.cat-card:nth-child(4) .cat-progress-fill { background: linear-gradient(90deg, #C3AED6, #9B59B6); }
+.cat-card:nth-child(5) .cat-progress-fill { background: linear-gradient(90deg, #7BC67E, #4CAF50); }
+
+/* Featured cards row */
+.featured-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* News mini list */
+.news-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.news-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--warm-white);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+  border: 1px solid rgba(74, 55, 40, 0.04);
+}
+
+.news-mini-item:hover {
+  background: rgba(255, 123, 123, 0.03);
+  transform: translateX(3px);
+}
+
+.news-mini-item .news-tag {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.news-mini-item .news-tag.active-tag { background: rgba(123, 198, 126, 0.15); color: var(--mint-dark); }
+.news-mini-item .news-tag.upcoming-tag { background: rgba(255, 179, 71, 0.18); color: #C7851E; }
+.news-mini-item .news-tag.past-tag { background: rgba(74, 55, 40, 0.06); color: var(--brown-lighter); }
+
+.news-mini-item .news-info { flex: 1; min-width: 0; }
+.news-mini-item .news-info h4 { font-size: 0.9rem; font-weight: 600; }
+.news-mini-item .news-info span { font-size: 0.78rem; color: var(--brown-lighter); }
+
+@media (max-width: 640px) {
+  .cat-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .cat-card { padding: 14px 8px; }
+  .cat-card .cat-icon { font-size: 1.8rem; }
+  .cat-card h3 { font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Content start (nav/footer auto-injected by components.js) -->
+<main>
+  <div class="container">
+    <!-- Hero -->
+    <div class="hub-hero">
+      <h1 data-i18n="hub.title">📖 Heartopia Guide</h1>
+      <p class="hub-subtitle" data-i18n="hub.subtitle">Player-built game guide for Heartopia</p>
+    </div>
+
+    <!-- Category Grid -->
+    <div class="cat-grid">
+      <a href="fishing.html" class="cat-card">
+        <span class="cat-icon">🎣</span>
+        <h3 data-i18n="hub.fish">Fish Guide</h3>
+        <span class="cat-count" id="fishProgress">27 species</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="fishProgressBar"></div></div>
+      </a>
+      <a href="bugs.html" class="cat-card">
+        <span class="cat-icon">🪲</span>
+        <h3 data-i18n="hub.bugs">Bug Guide</h3>
+        <span class="cat-count" id="bugsProgress">23 species</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="bugsProgressBar"></div></div>
+      </a>
+      <a href="birds.html" class="cat-card">
+        <span class="cat-icon">🐦</span>
+        <h3 data-i18n="hub.birds">Bird Guide</h3>
+        <span class="cat-count" id="birdsProgress">20 species</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="birdsProgressBar"></div></div>
+      </a>
+      <a href="cats.html" class="cat-card">
+        <span class="cat-icon">🐱</span>
+        <h3 data-i18n="hub.cats">Cat Guide</h3>
+        <span class="cat-count" id="catsProgress">12 breeds</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="catsProgressBar"></div></div>
+      </a>
+      <a href="cooking.html" class="cat-card">
+        <span class="cat-icon">🍳</span>
+        <h3 data-i18n="hub.cooking">Recipes</h3>
+        <span class="cat-count" id="cookProgress">27 recipes</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="cookProgressBar"></div></div>
+      </a>
+      <a href="gardening.html" class="cat-card">
+        <span class="cat-icon">🌷</span>
+        <h3 data-i18n="hub.gardening">Gardening</h3>
+        <span class="cat-count" id="gardenProgress">18 plants</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="gardenProgressBar"></div></div>
+      </a>
+      <a href="furniture.html" class="cat-card">
+        <span class="cat-icon">🏠</span>
+        <h3 data-i18n="hub.furniture">Furniture</h3>
+        <span class="cat-count" id="furnProgress">20 pieces</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%" id="furnProgressBar"></div></div>
+      </a>
+      <a href="npcs.html" class="cat-card">
+        <span class="cat-icon">👥</span>
+        <h3 data-i18n="hub.npcs">NPC Guide</h3>
+        <span class="cat-count" data-i18n="hub.npcs.desc">10 residents</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="beginner.html" class="cat-card">
+        <span class="cat-icon">🎓</span>
+        <h3 data-i18n="hub.beginner">Beginner</h3>
+        <span class="cat-count" data-i18n="hub.beginner.desc">Start here</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="money.html" class="cat-card">
+        <span class="cat-icon">💰</span>
+        <h3 data-i18n="hub.money">Money</h3>
+        <span class="cat-count" data-i18n="hub.money.desc">Best methods</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="events.html" class="cat-card">
+        <span class="cat-icon">🎉</span>
+        <h3 data-i18n="hub.events">Events</h3>
+        <span class="cat-count" data-i18n="hub.events.desc">2 active</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="tutorials.html" class="cat-card">
+        <span class="cat-icon">📝</span>
+        <h3 data-i18n="hub.tutorials">Tutorials</h3>
+        <span class="cat-count" data-i18n="hub.tutorials.desc">12 guides</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="videos.html" class="cat-card">
+        <span class="cat-icon">🎬</span>
+        <h3 data-i18n="hub.videos">Videos</h3>
+        <span class="cat-count" data-i18n="hub.videos.desc">10 videos</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+      <a href="../index.html" class="cat-card">
+        <span class="cat-icon">💝</span>
+        <h3 data-i18n="hub.landing">Official Site</h3>
+        <span class="cat-count" data-i18n="hub.landing.desc">Back to promo</span>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:0%"></div></div>
+      </a>
+    </div>
+
+    <!-- Hot Guides -->
+    <div class="featured-title" data-i18n="hub.hot">🔥 Popular Guides</div>
+    <div class="scroll-cards">
+      <a href="fishing.html" class="scroll-card">
+        <span class="sc-icon">🎣</span>
+        <h4 data-i18n="hot.fish">Complete Fish Encyclopedia</h4>
+        <p data-i18n="hot.fish.desc">All 27 species with season, location & price data</p>
+      </a>
+      <a href="money.html" class="scroll-card">
+        <span class="sc-icon">💰</span>
+        <h4 data-i18n="hot.money">Make Gold Fast</h4>
+        <p data-i18n="hot.money.desc">Most efficient money-making methods & daily checklist</p>
+      </a>
+      <a href="beginner.html" class="scroll-card">
+        <span class="sc-icon">🎓</span>
+        <h4 data-i18n="hot.beginner">Day 1 Beginner Guide</h4>
+        <p data-i18n="hot.beginner.desc">Start from scratch — everything you need to know</p>
+      </a>
+      <a href="events.html" class="scroll-card">
+        <span class="sc-icon">🎆</span>
+        <h4 data-i18n="hot.events">Summer Festival Coming</h4>
+        <p data-i18n="hot.events.desc">Limited costumes, furniture & fireworks await</p>
+      </a>
+      <a href="cooking.html" class="scroll-card">
+        <span class="sc-icon">🍳</span>
+        <h4 data-i18n="hot.cooking">All Recipes</h4>
+        <p data-i18n="hot.cooking.desc">27 dishes with ingredients, effects & prices</p>
+      </a>
+    </div>
+
+    <!-- Latest Updates -->
+    <div class="featured-title" style="margin-top:40px;" data-i18n="hub.news">📰 Latest Updates</div>
+    <div class="news-mini">
+      <a href="events.html" class="news-mini-item">
+        <span class="news-tag active-tag" data-i18n="news.active">Active</span>
+        <div class="news-info">
+          <h4 data-i18n="news.fishingDerby.title">Summer Fishing Derby (7/1–7/14)</h4>
+          <span data-i18n="news.fishingDerby.desc">Limited rod skin + rare bait + gold reward</span>
+        </div>
+      </a>
+      <a href="events.html" class="news-mini-item">
+        <span class="news-tag upcoming-tag" data-i18n="news.upcoming">Upcoming</span>
+        <div class="news-info">
+          <h4 data-i18n="news.summerFest.title">Summer Festival (7/15–8/15)</h4>
+          <span data-i18n="news.summerFest.desc">Yukata set, sparklers, goldfish lantern & more</span>
+        </div>
+      </a>
+      <a href="events.html" class="news-mini-item">
+        <span class="news-tag past-tag" data-i18n="news.past">Ended</span>
+        <div class="news-info">
+          <h4 data-i18n="news.version.title">v0.5.1 Update</h4>
+          <span data-i18n="news.version.desc">New furniture series + summer events + bug fixes</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="js/search.js"></script>
+<script>
+  initGuidePage({ titleKey: 'hub.title' });
+
+  // Load collection progress from localStorage
+  try {
+    const fishCollected = JSON.parse(localStorage.getItem('heartopia_fish_collected') || '[]');
+    const cookCollected = JSON.parse(localStorage.getItem('heartopia_cook_collected') || '[]');
+    const bugsCollected = JSON.parse(localStorage.getItem('heartopia_bugs_collected') || '[]');
+    const birdsCollected = JSON.parse(localStorage.getItem('heartopia_birds_collected') || '[]');
+    const catsCollected = JSON.parse(localStorage.getItem('heartopia_cats_collected') || '[]');
+    const gardenCollected = JSON.parse(localStorage.getItem('heartopia_garden_collected') || '[]');
+    const furnCollected = JSON.parse(localStorage.getItem('heartopia_furniture_collected') || '[]');
+
+    const fishTotal = 27;
+    const cookTotal = 27;
+
+    if (fishCollected.length > 0) {
+      document.getElementById('fishProgress').textContent = `${fishCollected.length}/${fishTotal} 已收集`;
+      document.getElementById('fishProgressBar').style.width = `${(fishCollected.length/fishTotal)*100}%`;
+    }
+    if (bugsCollected.length > 0) {
+      document.getElementById('bugsProgress').textContent = `${bugsCollected.length}/23 已收集`;
+      document.getElementById('bugsProgressBar').style.width = `${(bugsCollected.length/23)*100}%`;
+    }
+    if (birdsCollected.length > 0) {
+      document.getElementById('birdsProgress').textContent = `${birdsCollected.length}/20 已观察`;
+      document.getElementById('birdsProgressBar').style.width = `${(birdsCollected.length/20)*100}%`;
+    }
+    if (catsCollected.length > 0) {
+      document.getElementById('catsProgress').textContent = `${catsCollected.length}/12 已领养`;
+      document.getElementById('catsProgressBar').style.width = `${(catsCollected.length/12)*100}%`;
+    }
+    if (cookCollected.length > 0) {
+      document.getElementById('cookProgress').textContent = `${cookCollected.length}/${cookTotal} 已解锁`;
+      document.getElementById('cookProgressBar').style.width = `${(cookCollected.length/cookTotal)*100}%`;
+    }
+    if (gardenCollected.length > 0) {
+      document.getElementById('gardenProgress').textContent = `${gardenCollected.length}/18 已种植`;
+      document.getElementById('gardenProgressBar').style.width = `${(gardenCollected.length/18)*100}%`;
+    }
+    if (furnCollected.length > 0) {
+      document.getElementById('furnProgress').textContent = `${furnCollected.length}/20 已拥有`;
+      document.getElementById('furnProgressBar').style.width = `${(furnCollected.length/20)*100}%`;
+    }
+  } catch(e) {}
+</script>
+</body>
+</html>

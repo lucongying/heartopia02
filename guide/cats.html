@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.cats.title" data-i18n-desc="page.cats.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cat Guide - Heartopia Cat Breeds &amp; Care Tips</title>
+<meta name="description" content="Heartopia cat guide: 12 cat breed encyclopedia with personality, favorite food, care tips. Orange tabby, Siamese, Ragdoll, Bengal and more to adopt.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+.cat-profile{background:var(--warm-white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:18px;display:flex;gap:20px;align-items:flex-start;border:1px solid rgba(74,55,40,0.05);}
+.cat-profile .cat-avatar{font-size:3.5rem;flex-shrink:0;width:80px;text-align:center;}
+.cat-profile .cat-details{flex:1;}
+.cat-profile h3{font-size:1.15rem;margin-bottom:4px;}
+.cat-profile .cat-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
+.cat-profile .trait-tag{padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;background:rgba(255,179,71,0.15);color:#C7851E;}
+.cat-profile .trait-tag.rare{background:rgba(155,89,182,0.12);color:#7B1FA2;}
+.cat-profile p{font-size:0.88rem;color:var(--brown-light);margin:6px 0;}
+.cat-profile .care-box{background:rgba(123,198,126,0.08);padding:12px 16px;border-radius:var(--radius-sm);margin-top:8px;font-size:0.85rem;}
+@media(max-width:640px){.cat-profile{flex-direction:column;text-align:center;}.cat-profile .cat-avatar{margin:0 auto;}}
+</style>
+</head>
+<body>
+<main><div class="container"><div class="page-layout"><div>
+<div class="mobile-toc"></div>
+<div class="section-header"><div class="section-divider"></div><h1 data-i18n-html="page.cats.h1">🐱 Cat Guide &amp; Breed Encyclopedia</h1><p class="section-desc" data-i18n-html="page.cats.subtitle">Complete guide to 12 cat breeds: personality, preferences &amp; care tips</p></div>
+
+<div class="prose" id="guideContent">
+<h2 id="basics" data-i18n-html="page.cats.basics">🐾 Getting Started with Cats</h2>
+<p data-i18n-html="page.cats.basicsP1">In Heartopia, having a cat is the <strong>warmest and most healing</strong> hobby. You can meet stray cats around town, build trust through feeding and interaction, then adopt them. Each cat has unique <strong>personality, food preferences, and behavior patterns</strong>.</p>
+<div class="callout callout-info" data-i18n-html="page.cats.tip1">💡 <strong>How to get your first cat:</strong> After completing the tutorial, you'll meet a <strong>little white cat</strong> at the Town Square. Feed it fish for 3 consecutive days to take it home! This is the only cat obtained through the main quest.</div>
+<h3 data-i18n-html="page.cats.flow">Adoption Process</h3>
+<ol><li data-i18n-html="page.cats.flow1">Explore town and spot stray cats (different breeds in different locations)</li><li data-i18n-html="page.cats.flow2">Feed its favorite food daily to increase affection</li><li data-i18n-html="page.cats.flow3">When affection is maxed, the "Adopt" option appears</li><li data-i18n-html="page.cats.flow4">Place a cat tree and cat bed at your home</li><li data-i18n-html="page.cats.flow5">Happily take them home!</li></ol>
+<div class="callout callout-warn" data-i18n-html="page.cats.warn">⚠️ <strong>Note:</strong> Each cat can only be fed once per day. Feeding disliked food won't increase affection; feeding hated food may even decrease it!</div>
+<h2 id="encyclopedia" data-i18n-html="page.cats.encyclopedia">📊 Cat Breed Encyclopedia</h2>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+<input type="text" id="dbSearch" placeholder="🔍 搜索猫咪..." style="padding:8px 16px;border-radius:100px;border:1.5px solid rgba(74,55,40,0.12);font-size:0.9rem;font-family:var(--font-main);width:200px;outline:none;">
+<select id="sortSelect" class="sort-select"><option value="id">默认排序</option><option value="name">名称 A-Z</option><option value="-rarity">稀有度 高→低</option></select>
+<label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;"><input type="checkbox" id="toggleUncollected"> 仅显示未领养</label>
+</div>
+<div class="filter-bar">
+<div class="filter-group"><span class="filter-label">稀有度</span><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="1">⭐普通</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="2">⭐⭐稀有</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="3">⭐⭐⭐史诗</button><button class="filter-btn filter-rarity" data-filter-group="rarity" data-filter-value="4">👑传说</button></div>
+</div>
+<p class="db-count" id="dbCount">共找到 <strong>12</strong> 只猫咪</p>
+<div id="dbResults"></div>
+</div>
+<aside class="sidebar-toc" id="sidebarToc"><div class="toc-title">📑 目录</div><nav></nav></aside>
+</div></div></main>
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script><script src="data/cats.js"></script><script src="js/database.js"></script>
+<script>
+initGuidePage({titleKey:'page.cats.h1',parent:'',currentNav:'cats.html'});
+buildTOC('#guideContent','#sidebarToc');
+class CatDB extends EncyclopediaDB{
+  constructor(){super(CATS_DB,{defaultSort:'id'},'heartopia_cats_collected');}
+  _renderTableRow(item,collectIcon,collectedClass){
+    const traits=item.traits.map(t=>`<span class="trait-tag">${t}</span>`).join(' ');
+    return `<tr><td class="col-icon">${item.icon}</td><td class="col-name">${this._name(item)}<br><small style="color:var(--brown-lighter);">${I18N.currentLang==='en'?item.name:item.breed}</small></td><td class="rarity-stars">${'⭐'.repeat(item.rarity)}</td><td>${item.personality}</td><td style="font-size:0.82rem;">${item.favoriteFood}</td><td>${traits}</td><td class="col-collect ${collectedClass}" data-id="${item.id}" style="cursor:pointer;">${collectIcon}</td></tr>`;
+  }
+  _renderCard(item,collectIcon,collectedClass){
+    const traits=item.traits.map(t=>`<span class="trait-tag">${t}</span>`).join(' ');
+    return `<div class="db-card"><div class="card-icon-big">${item.icon}</div><div class="card-info"><h4>${this._name(item)} <small style="color:var(--brown-lighter);font-weight:400;">${I18N.currentLang==='en'?item.name:item.breed}</small></h4><div class="card-tags"><span class="card-tag tag-rarity">${'⭐'.repeat(item.rarity)}</span><span class="card-tag">${item.personality}</span></div><p style="font-size:0.8rem;color:var(--brown-light);margin-top:4px;">🍽️ 喜好：${item.favoriteFood}</p><p style="font-size:0.8rem;color:var(--brown-light);">🏷️ ${traits}</p><p style="font-size:0.78rem;color:var(--brown-lighter);margin-top:4px;">${item.desc}</p><div class="care-box">💡 ${item.careTips||item.tips||''}</div></div><button class="collect-btn ${collectedClass}" data-id="${item.id}">${collectIcon}</button></div>`;
+  }
+}
+new CatDB().init();new CatDB().render();
+</script>
+</body>
+</html>

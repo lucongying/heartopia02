@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" data-i18n-title="page.videos.title" data-i18n-desc="page.videos.desc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Tutorials - Heartopia Guide</title>
+<meta name="description" content="10 most popular Heartopia video tutorials from Bilibili, covering beginner guides, gameplay strategies, building tutorials, and event walkthroughs.">
+<link rel="stylesheet" href="css/guide-common.css">
+<style>
+/* ===== Video Grid ===== */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* ===== Video Card ===== */
+.video-card {
+  display: block;
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(74, 55, 40, 0.05);
+  text-decoration: none;
+  color: inherit;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.video-card:hover .video-thumb .play-btn {
+  background: var(--coral);
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 0 24px rgba(255, 123, 123, 0.5);
+}
+
+.video-card:hover .video-thumb .video-icon {
+  opacity: 0.35;
+}
+
+/* ===== Thumbnail Area (16:9) ===== */
+.video-thumb {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: linear-gradient(160deg, #2d1f3d 0%, #1a1a2e 40%, #0f0f23 100%);
+  overflow: hidden;
+}
+
+.video-thumb::before {
+  content: '';
+  position: absolute;
+  top: -30%; left: -30%;
+  width: 160%; height: 160%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,123,123,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(123,198,126,0.06) 0%, transparent 50%);
+  transition: opacity 0.3s;
+}
+
+.video-card:hover .video-thumb::before {
+  opacity: 1.3;
+}
+
+.video-thumb .video-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 2.8rem;
+  opacity: 0.6;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.video-thumb .play-btn {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fff;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  z-index: 2;
+}
+
+.video-thumb .duration {
+  position: absolute;
+  top: 10px; right: 10px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Platform badge on thumbnail */
+.video-thumb .platform-tag {
+  position: absolute;
+  top: 10px; left: 10px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(251,114,153,0.85);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  z-index: 2;
+  letter-spacing: 0.3px;
+}
+
+.video-thumb .views-tag {
+  position: absolute;
+  bottom: 10px; left: 10px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  z-index: 2;
+}
+
+/* Thumbnail cover image — first frame from video */
+.video-thumb .thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.video-thumb .thumb-img.loaded {
+  opacity: 1;
+}
+
+/* When thumbnail is visible, dim the gradient overlay and hide emoji */
+.video-thumb.has-thumb .video-icon,
+.video-thumb:has(.thumb-img.loaded) .video-icon {
+  opacity: 0;
+}
+
+.video-thumb.has-thumb::after,
+.video-thumb:has(.thumb-img.loaded)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Category-specific thumbnail accent colors */
+.video-thumb.accent-beginner { background: linear-gradient(160deg, #1b3a1b 0%, #0d1f0d 40%, #0a150a 100%); }
+.video-thumb.accent-gameplay { background: linear-gradient(160deg, #1a2a3d 0%, #0d1825 40%, #0a1018 100%); }
+.video-thumb.accent-events  { background: linear-gradient(160deg, #2d1f3d 0%, #1a0f25 40%, #0f0a15 100%); }
+.video-thumb.accent-build   { background: linear-gradient(160deg, #3d2a1f 0%, #25180d 40%, #18100a 100%); }
+
+/* ===== Video Card Body ===== */
+.video-body {
+  padding: 16px 18px 18px;
+}
+
+.video-body h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  color: var(--brown);
+}
+
+.video-body .cat-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-bottom: 10px;
+}
+
+.cat-badge.beginner { background: #E8F5E9; color: #2E7D32; }
+.cat-badge.gameplay { background: #E3F2FD; color: #1565C0; }
+.cat-badge.events  { background: #FFF3E0; color: #E65100; }
+.cat-badge.build   { background: #FBE9E7; color: #BF360C; }
+.cat-badge.news    { background: #F3E5F5; color: #7B1FA2; }
+
+.video-body p {
+  font-size: 0.82rem;
+  color: var(--brown-lighter);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.video-body .card-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.video-body .card-meta .mini-views {
+  font-size: 0.75rem;
+  color: #fb7299;
+  font-weight: 600;
+}
+
+.video-body .card-meta .mini-channel {
+  font-size: 0.75rem;
+  color: var(--brown-lighter);
+}
+
+/* ===== Filter Bar Extension ===== */
+.video-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.video-search-wrap {
+  position: relative;
+  max-width: 360px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.video-search-wrap input {
+  width: 100%;
+  padding: 11px 44px 11px 18px;
+  border: 2px solid rgba(74, 55, 40, 0.12);
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-family: var(--font-main);
+  background: var(--warm-white);
+  color: var(--brown);
+  transition: all 0.3s;
+  outline: none;
+}
+
+.video-search-wrap input:focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px rgba(255, 123, 123, 0.08);
+}
+
+.video-search-wrap .search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ===== Result count ===== */
+.video-count {
+  font-size: 0.85rem;
+  color: var(--brown-lighter);
+  margin-bottom: 18px;
+}
+
+.video-count strong { color: var(--brown); }
+
+/* ===== No results ===== */
+.video-no-results {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--brown-lighter);
+  font-size: 1rem;
+  grid-column: 1 / -1;
+}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="container">
+    <div class="page-layout no-sidebar">
+      <div>
+
+        <div class="section-header">
+          <div class="section-divider"></div>
+          <h1 data-i18n-html="page.videos.h1">🎬 Video Tutorials</h1>
+          <p class="section-desc" data-i18n-html="page.videos.subtitle">10 most popular Bilibili video guides to help you master Heartopia</p>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar video-filter-bar">
+          <div class="filter-group">
+            <span class="filter-label" data-i18n="filter.category">Category</span>
+            <button class="filter-btn active" data-filter-value="all" id="filterAll" data-i18n="page.videos.filterAll">All</button>
+            <button class="filter-btn" data-filter-value="beginner" data-i18n="page.videos.cat.beginner">Beginner</button>
+            <button class="filter-btn" data-filter-value="gameplay" data-i18n="page.videos.cat.gameplay">Gameplay</button>
+            <button class="filter-btn" data-filter-value="events" data-i18n="page.videos.cat.events">Events</button>
+            <button class="filter-btn" data-filter-value="build" data-i18n="page.videos.cat.build">Build</button>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="video-search-wrap">
+          <input type="text" id="videoSearch" data-i18n-placeholder="page.videos.search" placeholder="Search videos...">
+          <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Video Count -->
+        <p class="video-count" id="videoCount">Found <strong>12</strong> results</p>
+
+        <!-- Video Grid -->
+        <div class="video-grid" id="videoGrid"></div>
+        <p class="video-no-results" id="videoNoResults" style="display:none;" data-i18n-html="page.videos.noResults">No videos found. Try adjusting filters or search terms.</p>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<script src="js/i18n.js"></script>
+<script src="js/components.js"></script>
+<script src="data/videos.js"></script>
+<script src="js/database.js"></script>
+<script>
+// ====================================================================
+// Extend I18N dictionary with video page keys
+// ====================================================================
+(function() {
+  var videoKeys = {
+    en: {
+      'page.videos.title': 'Video Tutorials - Heartopia Guide',
+      'page.videos.desc': '10 most popular Heartopia video tutorials from Bilibili, covering beginner guides, gameplay strategies, building tutorials, and event walkthroughs.',
+      'page.videos.h1': '🎬 Video Tutorials',
+      'page.videos.subtitle': '10 most popular <span style="color:#fb7299;">Bilibili</span> video guides — master Heartopia with the community\'s best',
+      'page.videos.search': 'Search videos...',
+      'page.videos.filterAll': 'All',
+      'page.videos.cat.beginner': 'Beginner',
+      'page.videos.cat.gameplay': 'Gameplay',
+      'page.videos.cat.events': 'Events',
+      'page.videos.cat.build': 'Build',
+      'page.videos.cat.news': 'News',
+      'page.videos.noResults': 'No videos found. Try adjusting filters or search terms.',
+      'page.videos.count': 'Found',
+      'page.videos.countUnit': 'views',
+      'page.videos.watchOnBilibili': 'Watch on Bilibili →'
+    },
+    zh: {
+      'page.videos.title': '视频教程 - Heartopia 攻略站',
+      'page.videos.desc': 'B站播放量最高的10个心动小镇视频教程，涵盖新手入门、玩法攻略、建筑教程和活动攻略。',
+      'page.videos.h1': '🎬 视频教程',
+      'page.videos.subtitle': 'B站播放量最高的10个<span style="color:#fb7299;">心动小镇</span>精选视频 — 跟社区大神一起玩转心托邦',
+      'page.videos.search': '搜索视频...',
+      'page.videos.filterAll': '全部',
+      'page.videos.cat.beginner': '新手入门',
+      'page.videos.cat.gameplay': '玩法攻略',
+      'page.videos.cat.events': '活动攻略',
+      'page.videos.cat.build': '建筑教程',
+      'page.videos.cat.news': '更新资讯',
+      'page.videos.noResults': '未找到相关视频，请调整筛选条件或搜索词。',
+      'page.videos.count': '共找到',
+      'page.videos.countUnit': '次播放',
+      'page.videos.watchOnBilibili': '在B站观看 →'
+    }
+  };
+
+  if (typeof I18N !== 'undefined') {
+    Object.assign(I18N.dict.en, videoKeys.en);
+    Object.assign(I18N.dict.zh, videoKeys.zh);
+  }
+})();
+
+// ====================================================================
+// Helpers
+// ====================================================================
+function getVideoTitle(v) {
+  if (typeof I18N !== 'undefined' && I18N.currentLang === 'zh') return v.title;
+  return v.titleEn || v.title;
+}
+
+function getVideoDesc(v) {
+  if (typeof I18N !== 'undefined' && I18N.currentLang === 'zh') return v.desc;
+  return v.descEn || v.desc;
+}
+
+function getCatLabel(cat) {
+  if (typeof I18N !== 'undefined') {
+    return I18N.t('page.videos.cat.' + cat);
+  }
+  return cat.charAt(0).toUpperCase() + cat.slice(1);
+}
+
+// ====================================================================
+// State
+// ====================================================================
+var activeFilter = 'all';
+var searchQuery = '';
+
+// ====================================================================
+// Render video cards
+// ====================================================================
+function renderVideos() {
+  var grid = document.getElementById('videoGrid');
+  var countEl = document.getElementById('videoCount');
+  var noResultsEl = document.getElementById('videoNoResults');
+  if (!grid) return;
+
+  // Filter
+  var filtered = VIDEOS_DB.filter(function(v) {
+    if (activeFilter !== 'all' && v.category !== activeFilter) return false;
+    if (searchQuery) {
+      var q = searchQuery.toLowerCase();
+      var haystack = [v.title, v.titleEn, v.desc, v.descEn, v.channel].filter(Boolean).join(' ').toLowerCase();
+      if (haystack.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+
+  // Update count
+  if (countEl) {
+    var countWord = (typeof I18N !== 'undefined') ? I18N.t('page.videos.count') : 'Found';
+    var unitWord = (typeof I18N !== 'undefined') ? I18N.t('page.videos.countUnit') : 'results';
+    countEl.innerHTML = countWord + ' <strong>' + filtered.length + '</strong> ' + unitWord;
+  }
+
+  // No results
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    if (noResultsEl) noResultsEl.style.display = 'block';
+    return;
+  }
+  if (noResultsEl) noResultsEl.style.display = 'none';
+
+  // Build cards
+  var html = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var v = filtered[i];
+    var title = getVideoTitle(v);
+    var desc = getVideoDesc(v);
+    var catLabel = getCatLabel(v.category);
+
+    // Platform tag
+    var platformTag = '';
+    if (v.platform === 'bilibili') {
+      platformTag = '<span class="platform-tag">B站</span>';
+    } else if (v.platform === 'youtube') {
+      platformTag = '<span class="platform-tag">YouTube</span>';
+    }
+
+    // Views tag
+    var viewsTag = '';
+    if (v.views) {
+      viewsTag = '<span class="views-tag">🔥 ' + v.views + '</span>';
+    }
+
+    // Build thumb container classes
+    var thumbClasses = 'video-thumb accent-' + v.category;
+    if (v.thumbnail) thumbClasses += ' has-thumb';
+
+    html += '<a href="video-detail.html?id=' + v.id + '" class="video-card">';
+    html += '  <div class="' + thumbClasses + '" data-video-id="' + v.id + '">';
+    // Thumbnail image — use pre-computed URL when available, otherwise load from API
+    if (v.thumbnail) {
+      html += '  <img class="thumb-img loaded" src="' + v.thumbnail + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\';this.closest(\'.video-thumb\').classList.remove(\'has-thumb\');">';
+    } else if (v.bvid) {
+      html += '  <img class="thumb-img" src="" data-bvid="' + v.bvid + '" alt="" loading="lazy" referrerpolicy="no-referrer">';
+    }
+    html +=      platformTag;
+    html += '    <span class="video-icon" id="icon-' + v.id + '">' + v.icon + '</span>';
+    html += '    <span class="play-btn">▶</span>';
+    html += '    <span class="duration">' + v.duration + '</span>';
+    html +=      viewsTag;
+    html += '  </div>';
+    html += '  <div class="video-body">';
+    html += '    <h3>' + escapeHTML(title) + '</h3>';
+    html += '    <span class="cat-badge ' + v.category + '">' + catLabel + '</span>';
+    html += '    <p>' + escapeHTML(desc) + '</p>';
+    if (v.channel) {
+      html += '    <div class="card-meta">';
+      html += '      <span class="mini-channel">📺 ' + escapeHTML(v.channel) + '</span>';
+      if (v.views) {
+        html += '      <span class="mini-views">🔥 ' + v.views + '</span>';
+      }
+      html += '    </div>';
+    }
+    html += '  </div>';
+    html += '</a>';
+  }
+
+  grid.innerHTML = html;
+
+  // Re-fetch thumbnails after DOM update
+  setTimeout(loadVideoThumbnails, 150);
+}
+
+function escapeHTML(str) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+// ====================================================================
+// Filter & Search
+// ====================================================================
+var filterBtns = document.querySelectorAll('.video-filter-bar .filter-btn');
+for (var i = 0; i < filterBtns.length; i++) {
+  filterBtns[i].addEventListener('click', function() {
+    // Update active state
+    for (var j = 0; j < filterBtns.length; j++) {
+      filterBtns[j].classList.remove('active');
+    }
+    this.classList.add('active');
+
+    activeFilter = this.getAttribute('data-filter-value');
+    renderVideos();
+  });
+}
+
+var searchInput = document.getElementById('videoSearch');
+if (searchInput) {
+  searchInput.addEventListener('input', function() {
+    searchQuery = this.value.trim();
+    renderVideos();
+  });
+}
+
+// ====================================================================
+// Load video thumbnails from Bilibili API
+// ====================================================================
+function loadVideoThumbnails() {
+  var imgs = document.querySelectorAll('.video-thumb .thumb-img[data-bvid]');
+  if (!imgs.length) return;
+
+  // Process in small batches to avoid rate-limiting
+  var index = 0;
+  var batchSize = 3;
+  var delay = 400; // ms between batches
+
+  function processBatch() {
+    var end = Math.min(index + batchSize, imgs.length);
+    for (var i = index; i < end; i++) {
+      (function(img) {
+        var bvid = img.getAttribute('data-bvid');
+        if (!bvid) return;
+
+        // Bilibili public video info API (supports CORS)
+        var apiUrl = 'https://api.bilibili.com/x/web-interface/view?bvid=' + encodeURIComponent(bvid);
+
+        fetch(apiUrl)
+          .then(function(res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function(json) {
+            if (json.code === 0 && json.data && json.data.pic) {
+              // Bilibili returns http:// URLs — upgrade to https://
+              var picUrl = json.data.pic.replace(/^http:\/\//, 'https://');
+              img.src = picUrl;
+              img.classList.add('loaded');
+
+              // Mark parent thumbnail for styling
+              var thumb = img.closest('.video-thumb');
+              if (thumb) {
+                thumb.classList.add('has-thumb');
+              }
+
+              // Add onerror handler in case CDN blocks direct access
+              img.onerror = function() {
+                img.classList.remove('loaded');
+                img.style.display = 'none';
+                if (thumb) thumb.classList.remove('has-thumb');
+              };
+            }
+          })
+          .catch(function() {
+            // Silently fail — gradient+emoji fallback stays visible
+          });
+      })(imgs[i]);
+    }
+
+    index = end;
+    if (index < imgs.length) {
+      setTimeout(processBatch, delay);
+    }
+  }
+
+  processBatch();
+}
+// ====================================================================
+document.addEventListener('langChanged', function() {
+  // Re-bind filter button labels (already handled by I18N.updatePage via data-i18n)
+  renderVideos();
+  // Re-fetch thumbnails after re-render
+  setTimeout(loadVideoThumbnails, 100);
+});
+
+// ====================================================================
+// Initialize
+// ====================================================================
+initGuidePage({ titleKey: 'page.videos.h1', parent: '', currentNav: 'videos.html' });
+
+// Initial render (after a microtask to ensure I18N keys are registered)
+if (typeof VIDEOS_DB !== 'undefined') {
+  renderVideos();
+  // Fetch video thumbnails after cards are in the DOM
+  setTimeout(loadVideoThumbnails, 200);
+} else {
+  // Fallback: wait for DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof VIDEOS_DB !== 'undefined') {
+      renderVideos();
+      setTimeout(loadVideoThumbnails, 200);
+    }
+  });
+}
+</script>
+</body>
+</html>
