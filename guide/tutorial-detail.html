@@ -32,6 +32,9 @@
 .img-row .tutorial-img { margin: 0; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--coral-dark); text-decoration: none; font-weight: 600; font-size: 0.9rem; margin-bottom: 16px; transition: opacity 0.2s; }
 .back-link:hover { opacity: 0.8; text-decoration: underline; }
+.tutorial-img[class*="scene-fish-"] { aspect-ratio: auto; }
+.tutorial-img[class*="scene-fish-"] .img-scene { position: static; padding: 8px 12px; background: rgba(74,55,40,0.06); }
+.tutorial-img[class*="scene-fish-"] .scene-label { color: var(--brown-lighter); font-size: 0.75rem; text-shadow: none; }
 @media(max-width:640px){ .detail-content { padding: 20px 16px; } .img-row { grid-template-columns: 1fr; }  }
 </style>
 
@@ -102,7 +105,20 @@ initGuidePage({ titleKey: 'page.tutorials.h1', currentNav: 'tutorials.html' });
       'scene-farm':   '../images/screenshots/gallery_3.jpg',  // Garden Stroll
       'scene-forest': '../images/screenshots/gallery_3.jpg',  // Garden Stroll
       'scene-fest':   '../images/screenshots/gallery_5.jpg',  // Cat Time
-      'scene-night':  '../images/screenshots/gallery_5.jpg'   // Cat Time
+      'scene-night':  '../images/screenshots/gallery_5.jpg',  // Cat Time
+      // Fishing complete guide images (from TapTap community)
+      'scene-fish-01': 'images/tutorials/fishing-guide/guide-img-01.png',
+      'scene-fish-02': 'images/tutorials/fishing-guide/guide-img-02.png',
+      'scene-fish-03': 'images/tutorials/fishing-guide/guide-img-03.png',
+      'scene-fish-04': 'images/tutorials/fishing-guide/guide-img-04.png',
+      'scene-fish-05': 'images/tutorials/fishing-guide/guide-img-05.png',
+      'scene-fish-06': 'images/tutorials/fishing-guide/guide-img-06.png',
+      'scene-fish-07': 'images/tutorials/fishing-guide/guide-img-07.png',
+      'scene-fish-08': 'images/tutorials/fishing-guide/guide-img-08.png',
+      'scene-fish-09': 'images/tutorials/fishing-guide/guide-img-09.png',
+      'scene-fish-10': 'images/tutorials/fishing-guide/guide-img-10.png',
+      'scene-fish-11': 'images/tutorials/fishing-guide/guide-img-11.png',
+      'scene-fish-12': 'images/tutorials/fishing-guide/guide-img-12.png'
     };
 
     var placeholders = container.querySelectorAll('.tutorial-img');
@@ -123,13 +139,18 @@ initGuidePage({ titleKey: 'page.tutorials.h1', currentNav: 'tutorials.html' });
 
       // Strip variant suffix to get base scene name (e.g. "scene-town-2" → "scene-town")
       var baseScene = sceneClass.replace(/-\d+$/, '');
-      var imgSrc = sceneToGallery[baseScene] || sceneToGallery['scene-town'];
+      var imgSrc = sceneToGallery[sceneClass] || sceneToGallery[baseScene] || sceneToGallery['scene-town'];
 
       var img = document.createElement('img');
       img.className = 'tutorial-screenshot';
       img.src = imgSrc;
       img.alt = baseScene.replace('scene-', '') + ' screenshot';
-      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;';
+      // Fish guide images are tall data charts — let them define container height naturally
+      if (sceneClass.indexOf('scene-fish-') === 0) {
+        img.style.cssText = 'display:block;width:100%;height:auto;';
+      } else {
+        img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;';
+      }
       el.insertBefore(img, el.firstChild);
     }
   }
